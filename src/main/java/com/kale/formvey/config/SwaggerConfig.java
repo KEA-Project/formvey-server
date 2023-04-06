@@ -1,4 +1,4 @@
-package com.kale.formvey;
+package com.kale.formvey.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,6 @@ import java.util.Collections;
 @EnableAsync
 @EnableSwagger2
 public class SwaggerConfig implements WebMvcConfigurer {
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")

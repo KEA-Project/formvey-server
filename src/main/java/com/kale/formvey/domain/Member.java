@@ -16,7 +16,9 @@ public class Member {
     @Id
     @GeneratedValue
     private Long id;
-
-    private String name;
-
+    private String nickName;
+    private String password;
+    private String ageRange;
+    private String gender;
+    private int point;
 }
