@@ -1,24 +1,32 @@
 package com.kale.formvey.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.kale.formvey.dto.member.PostMemberReq;
+import lombok.*;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+import javax.persistence.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Getter @Setter
+@Data
 public class Member {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
+
+    @Column
+    private String email;
+
+    @Column(name = "nickname")
     private String nickName;
+
+    @Column
     private String password;
-    private String ageRange;
-    private String gender;
+
+    @Column
     private int point;
+
+    @Column
+    private String phone;
 }
