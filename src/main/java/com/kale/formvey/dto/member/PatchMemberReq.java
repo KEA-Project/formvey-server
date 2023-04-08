@@ -1,14 +1,17 @@
-package com.kale.formvey.config;
+package com.kale.formvey.dto.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseException extends RuntimeException {
-    private BaseResponseStatus status;
+@Getter
+@Setter
+public class PatchMemberReq {
+
+    private String nickname;
+
+    private String password;
 }
