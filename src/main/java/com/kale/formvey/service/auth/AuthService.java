@@ -9,6 +9,7 @@ import com.kale.formvey.dto.member.PatchMemberReq;
 import com.kale.formvey.dto.member.PostMemberReq;
 import com.kale.formvey.dto.member.PostMemberRes;
 import com.kale.formvey.repository.MemberRepository;
+import com.kale.formvey.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,12 @@ import static com.kale.formvey.config.BaseResponseStatus.*;
 @RequiredArgsConstructor
 public class AuthService {
     private final MemberRepository memberRepository;
+
+    private final JwtService jwtService;
+
+    /**
+     * 이메일 로그인 및 jwt 생성
+     */
     public PostLoginRes emailLogin(PostLoginReq dto) {
         // 존재하지 않는 이메일
         if (memberRepository.findByEmail(dto.getEmail()).isEmpty())
@@ -29,9 +36,10 @@ public class AuthService {
         if (!memberRepository.findByEmail(dto.getEmail()).get().getPassword().equals(dto.getPassword()))
             throw new BaseException(POST_USERS_WRONG_PASSWORD);
 
+        //jwt 생성 후 반환
         Member member = memberRepository.findByEmail(dto.getEmail()).get();
+        String jwt = jwtService.createJwt(member.getId());
 
-        return new PostLoginRes(member.getId(), member.getEmail(),
-                member.getNickname(), member.getPoint(), member.getPhone());
+        return new PostLoginRes(member.getId(),jwt);
     }
 }
