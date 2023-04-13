@@ -1,18 +1,12 @@
 package com.kale.formvey.service.auth;
 
 import com.kale.formvey.config.BaseException;
-import com.kale.formvey.domain.member.Member;
+import com.kale.formvey.domain.Member;
 import com.kale.formvey.dto.auth.PostLoginReq;
 import com.kale.formvey.dto.auth.PostLoginRes;
-import com.kale.formvey.dto.member.GetMemberRes;
-import com.kale.formvey.dto.member.PatchMemberReq;
-import com.kale.formvey.dto.member.PostMemberReq;
-import com.kale.formvey.dto.member.PostMemberRes;
 import com.kale.formvey.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static com.kale.formvey.config.BaseResponseStatus.*;
 

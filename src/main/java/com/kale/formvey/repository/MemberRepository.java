@@ -1,6 +1,6 @@
 package com.kale.formvey.repository;
 
-import com.kale.formvey.domain.member.Member;
+import com.kale.formvey.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

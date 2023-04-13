@@ -1,4 +1,4 @@
-package com.kale.formvey.domain.member;
+package com.kale.formvey.domain;
 
 import com.kale.formvey.dto.member.PatchMemberReq;
 import com.kale.formvey.dto.member.PostMemberReq;
@@ -19,14 +19,18 @@ public class Member {
 
     @Column(nullable = false)
     private String email;
+
     @Column(nullable = false)
     private String nickname;
+
     @Column(nullable = false)
     private String password;
 
     private int point;
 
     private String phone;
+
+    //--------------------------------------------------------------------
 
     public void update(PatchMemberReq dto) {
         this.nickname = dto.getNickname();

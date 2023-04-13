@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/members")
+@RequestMapping("/api")
 public class MemberController {
     private final MemberService memberService;
     @ResponseBody
-    @PostMapping("/signup")
+    @PostMapping("/members/signup")
     private BaseResponse<PostMemberRes> emailSignup(@RequestBody PostMemberReq dto) {
         PostMemberRes postMemberRes = memberService.emailSignup(dto);
         return new BaseResponse<>(postMemberRes);
     }
-    @GetMapping("/info/{memberId}")
+    @GetMapping("/members/info/{memberId}")
     private BaseResponse<GetMemberRes> getMemberInfo(@PathVariable Long memberId) {
         GetMemberRes getMemberRes = memberService.getMemberInfo(memberId);
         return new BaseResponse<>(getMemberRes);
     }
     @ResponseBody
-    @PatchMapping("/edit/{memberId}")
+    @PatchMapping("/members/edit/{memberId}")
     private BaseResponse<String> editProfile(@RequestBody PatchMemberReq dto, @PathVariable Long memberId) {
         memberService.editProfile(memberId, dto);
         String result = "프로필 수정이 완료되었습니다";

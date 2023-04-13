@@ -1,7 +1,7 @@
 package com.kale.formvey.service.member;
 
 import com.kale.formvey.config.BaseException;
-import com.kale.formvey.domain.member.Member;
+import com.kale.formvey.domain.Member;
 import com.kale.formvey.dto.member.GetMemberRes;
 import com.kale.formvey.dto.member.PatchMemberReq;
 import com.kale.formvey.dto.member.PostMemberReq;
