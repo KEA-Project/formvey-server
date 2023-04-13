@@ -11,20 +11,36 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
+
+    /**
+     * 이메일 회원가입
+     * [POST] /members/email
+     * @return BaseResponse<PostMemberRes>
+     */
     @ResponseBody
     @PostMapping("/members/signup")
     private BaseResponse<PostMemberRes> emailSignup(@RequestBody PostMemberReq dto) {
         PostMemberRes postMemberRes = memberService.emailSignup(dto);
         return new BaseResponse<>(postMemberRes);
     }
+    /**
+     * 회원 정보 조회
+     * [POST] /members/info/{memberId}
+     * @return BaseResponse<GetMemberRes>
+     */
     @GetMapping("/members/info/{memberId}")
     private BaseResponse<GetMemberRes> getMemberInfo(@PathVariable Long memberId) {
         GetMemberRes getMemberRes = memberService.getMemberInfo(memberId);
         return new BaseResponse<>(getMemberRes);
     }
+    /**
+     * 프로필 수정
+     * [POST] /members/edit/{memberId}
+     * @return BaseResponse<String>
+     */
     @ResponseBody
     @PatchMapping("/members/edit/{memberId}")
     private BaseResponse<String> editProfile(@RequestBody PatchMemberReq dto, @PathVariable Long memberId) {

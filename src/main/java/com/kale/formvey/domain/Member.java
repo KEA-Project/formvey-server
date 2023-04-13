@@ -5,13 +5,15 @@ import com.kale.formvey.dto.member.PostMemberReq;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder
-@Data
-public class Member {
+@Getter
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "member_id")
@@ -30,7 +32,13 @@ public class Member {
 
     private String phone;
 
-    //--------------------------------------------------------------------
+    @OneToMany(mappedBy = "member")
+    private List<Survey> surveys = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Response> responses = new ArrayList<>();
+
+    //--------------------------------------------------------------
 
     public void update(PatchMemberReq dto) {
         this.nickname = dto.getNickname();

@@ -40,8 +40,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "TEST API",
-                "Some custom description of API.",
+                "Formvey API",
+                "설문조사 플랫폼 '폼베이'의 API 명세서입니다.",
                 "0.0.1",
                 "Terms of service",
                 new Contact("MemoStack", "https://memostack.tistory.com", "public.devhong@gmail.com"),

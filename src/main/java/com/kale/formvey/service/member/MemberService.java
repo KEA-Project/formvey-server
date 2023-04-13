@@ -16,6 +16,9 @@ import static com.kale.formvey.config.BaseResponseStatus.USERS_EMPTY_USER_ID;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    /**
+     * 이메일 회원가입
+     */
     public PostMemberRes emailSignup(PostMemberReq dto) {
         // 이메일 중복일 때
         if (memberRepository.findByEmail(dto.getEmail()).isPresent())
@@ -26,7 +29,9 @@ public class MemberService {
 
         return new PostMemberRes(member.getId());
     }
-
+    /**
+     * 사용자 정보 조회
+     */
     public GetMemberRes getMemberInfo(Long memberId) {
         // 해당 유저 id가 존재하지 않을 때
         if (memberRepository.findById(memberId).isEmpty())
@@ -37,7 +42,9 @@ public class MemberService {
         return new GetMemberRes(member.getId(), member.getEmail(),
                 member.getNickname(), member.getPoint(), member.getPhone());
     }
-
+    /**
+     * 사용자 프로필 수정
+     */
     public void editProfile(Long memberId, PatchMemberReq dto) {
         // 해당 유저 id가 존재하지 않을 때
         if (memberRepository.findById(memberId).isEmpty())
