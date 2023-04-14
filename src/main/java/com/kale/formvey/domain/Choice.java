@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter
 public class Choice extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "choice_id")
     private Long id;
 

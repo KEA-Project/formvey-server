@@ -22,9 +22,9 @@ public class Survey extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private String title;
+    private String surveyTitle;
 
-    private String information;
+    private String surveyContent;
 
     private LocalDate startDate;
 

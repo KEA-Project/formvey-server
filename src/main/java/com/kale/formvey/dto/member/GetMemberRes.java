@@ -17,7 +17,4 @@ public class GetMemberRes {
     private String nickname;
 
     private int point;
-
-    private String phone;
-
 }

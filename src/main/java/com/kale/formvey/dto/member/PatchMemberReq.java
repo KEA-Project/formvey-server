@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PatchMemberReq {
-
     private String nickname;
 
     private String password;

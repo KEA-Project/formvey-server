@@ -11,5 +11,6 @@ import lombok.Setter;
 @Setter
 public class PostLoginRes {
     private Long id;
+
     private String jwt;
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 public class Member extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -25,12 +25,9 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
     private String password;
 
     private int point;
-
-    private String phone;
 
     @OneToMany(mappedBy = "member")
     private List<Survey> surveys = new ArrayList<>();

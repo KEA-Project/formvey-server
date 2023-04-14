@@ -21,7 +21,7 @@ public class MemberController {
      * @return BaseResponse<PostMemberRes>
      */
     @ResponseBody
-    @PostMapping("/members/signup")
+    @PostMapping("/signup")
     private BaseResponse<PostMemberRes> emailSignup(@RequestBody PostMemberReq dto) {
         PostMemberRes postMemberRes = memberService.emailSignup(dto);
         return new BaseResponse<>(postMemberRes);
@@ -31,7 +31,7 @@ public class MemberController {
      * [POST] /members/info/{memberId}
      * @return BaseResponse<GetMemberRes>
      */
-    @GetMapping("/members/info/{memberId}")
+    @GetMapping("/info/{memberId}")
     private BaseResponse<GetMemberRes> getMemberInfo(@PathVariable Long memberId) {
         GetMemberRes getMemberRes = memberService.getMemberInfo(memberId);
         return new BaseResponse<>(getMemberRes);
@@ -42,7 +42,7 @@ public class MemberController {
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("/members/edit/{memberId}")
+    @PatchMapping("/edit/{memberId}")
     private BaseResponse<String> editProfile(@RequestBody PatchMemberReq dto, @PathVariable Long memberId) {
         memberService.editProfile(memberId, dto);
         String result = "프로필 수정이 완료되었습니다";

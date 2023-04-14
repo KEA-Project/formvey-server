@@ -40,7 +40,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).get();
 
         return new GetMemberRes(member.getId(), member.getEmail(),
-                member.getNickname(), member.getPoint(), member.getPhone());
+                member.getNickname(), member.getPoint());
     }
     /**
      * 사용자 프로필 수정

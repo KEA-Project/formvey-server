@@ -17,14 +17,11 @@ public class PostMemberReq {
 
     private String password;
 
-    private String phone;
-
     public static Member toEntity(PostMemberReq dto){
         return Member.builder()
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .nickname(dto.getNickname())
-                .phone(dto.getPhone())
                 .point(0)
                 .build();
     }
