@@ -13,11 +13,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@SequenceGenerator(
+        name = "RESPONSE_SEQ_GENERATOR"
+        , sequenceName = "RESPONSE_SEQ"
+        , initialValue = 1
+        , allocationSize = 1
+)
 @Builder
 @Getter
 public class Response extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RESPONSE_SEQ_GENERATOR")
     @Column(name = "response_id")
     private Long id;
 

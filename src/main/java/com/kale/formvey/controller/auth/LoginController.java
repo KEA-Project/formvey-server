@@ -31,4 +31,21 @@ public class LoginController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
+    /**
+     * 카카오 로그인 및 가입 여부 확인(미가입 시 회원가입 자동 진행)
+     * [POST] /login/kakao/{access-token}
+     * @return BaseResponse<PostLoginRes>
+     */
+    @ResponseBody
+    @PostMapping("/kakao/{access-token}")
+    @ApiOperation("카카오 로그인")
+    private BaseResponse<PostLoginRes> kakaoLogin(@PathVariable("access-token") String token) {
+        try {
+            PostLoginRes postLoginRes = authService.kakaoLogin(token);
+            return new BaseResponse<>(postLoginRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 }

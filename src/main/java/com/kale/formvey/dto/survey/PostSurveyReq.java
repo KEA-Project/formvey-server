@@ -26,9 +26,8 @@ public class PostSurveyReq {
     private LocalDate endDate;
 
     private int responseCnt;
-    private boolean isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
+    private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
 
-    private boolean status; // 0 -> 임시저장, 1 -> 배포 완료
     private int rewardOption; // 0 -> 리워드 지정 x, 1 -> 리워드 랜덤 발송, 2 -> 리워드 지정 발송
     private String url;
     private String exitUrl;

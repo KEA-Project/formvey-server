@@ -26,15 +26,16 @@ public class PostQuestionReq {
 
     private List<PostChoiceReq> choices = new ArrayList<>();
 
-    private boolean isEssential;
+    private int isEssential;
 
-    private boolean isShort;
+    private int isShort;
 
     public static Question toEntity(Survey survey, PostQuestionReq dto){
         return Question.builder()
                 .survey(survey)
                 .questionIdx(dto.questionIdx)
                 .questionTitle(dto.questionTitle)
+                .type(dto.type)
                 .isShort(dto.isShort)
                 .isEssential(dto.isEssential)
                 .build();

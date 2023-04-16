@@ -9,11 +9,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@SequenceGenerator(
+        name = "QUESTION_SEQ_GENERATOR"
+        , sequenceName = "QUESTION_SEQ"
+        , initialValue = 1
+        , allocationSize = 1
+)
 @Builder
 @Getter
 public class Question extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUESTION_SEQ_GENERATOR")
     @Column(name = "question_id")
     private Long id;
 
@@ -27,9 +33,9 @@ public class Question extends BaseEntity {
 
     private int type;
 
-    private boolean isEssential;
+    private int isEssential;
 
-    private boolean isShort;
+    private int isShort;
 
     @OneToMany(mappedBy = "question")
     private List<Choice> choices = new ArrayList<>();

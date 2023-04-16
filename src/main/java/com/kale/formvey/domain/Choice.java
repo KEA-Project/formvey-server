@@ -10,11 +10,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@SequenceGenerator(
+        name = "CHOICE_SEQ_GENERATOR"
+        , sequenceName = "CHOICE_SEQ"
+        , initialValue = 1
+        , allocationSize = 1
+)
 @Builder
 @Getter
 public class Choice extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CHOICE_SEQ_GENERATOR")
     @Column(name = "choice_id")
     private Long id;
 
