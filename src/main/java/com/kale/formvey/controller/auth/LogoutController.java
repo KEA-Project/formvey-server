@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.kale.formvey.config.BaseResponseStatus.INVALID_USER_JWT;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/logout")

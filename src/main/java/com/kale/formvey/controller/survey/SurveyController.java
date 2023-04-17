@@ -6,10 +6,11 @@ import com.kale.formvey.dto.survey.PostSurveyReq;
 import com.kale.formvey.dto.survey.PostSurveyRes;
 import com.kale.formvey.service.survey.SurveyService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/surveys")
 public class SurveyController {
@@ -21,11 +22,10 @@ public class SurveyController {
      */
     @ResponseBody
     @PostMapping("/create/{memberId}")
-    private BaseResponse<PostSurveyRes> emailSignup(@RequestBody PostSurveyReq dto, @PathVariable Long memberId) {
+    private BaseResponse<PostSurveyRes> createSurvey(@RequestBody PostSurveyReq dto, @PathVariable Long memberId) {
         PostSurveyRes postSurveyRes = surveyService.createSurvey(memberId, dto);
         return new BaseResponse<>(postSurveyRes);
     }
-
     /**
      * 설문 삭제
      * [DELETE] /surveys/delete/{memberId}
@@ -37,4 +37,9 @@ public class SurveyController {
         String result = "설문이 삭제되었습니다.";
         return new BaseResponse<>(result);
     }
+    /**
+     * 설문 응답
+     * [DELETE] /surveys/delete/{memberId}
+     * @return BaseResponse<PostSurveyRes>
+     */
 }
