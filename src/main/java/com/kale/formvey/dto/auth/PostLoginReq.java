@@ -1,14 +1,16 @@
-package com.kale.formvey.config;
+package com.kale.formvey.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseException extends RuntimeException {
-    private BaseResponseStatus status;
+@Getter
+@Setter
+public class PostLoginReq {
+    private String email;
+
+    private String password;
 }

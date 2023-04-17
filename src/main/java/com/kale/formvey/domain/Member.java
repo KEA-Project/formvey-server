@@ -1,24 +1,54 @@
 package com.kale.formvey.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.kale.formvey.dto.member.PatchMemberReq;
+import com.kale.formvey.dto.member.PostMemberReq;
+import lombok.*;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Getter @Setter
-public class Member {
-
+@SequenceGenerator(
+        name = "MEMBER_SEQ_GENERATOR"
+        , sequenceName = "MEMBER_SEQ"
+        , initialValue = 1
+        , allocationSize = 1
+)
+@Builder
+@Getter
+public class Member extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ_GENERATOR")
+    @Column(name = "member_id")
     private Long id;
-    private String nickName;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String nickname;
+
     private String password;
-    private String ageRange;
-    private String gender;
+
     private int point;
+
+    @OneToMany(mappedBy = "member")
+    private List<Survey> surveys = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Response> responses = new ArrayList<>();
+
+    //--------------------------------------------------------------
+
+    public void update(PatchMemberReq dto) {
+        this.nickname = dto.getNickname();
+        this.password = dto.getPassword();
+    }
+
+    public void updateStatus(int i) {
+        setStatus(i);
+    }
 }
