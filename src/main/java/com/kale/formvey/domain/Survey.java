@@ -51,4 +51,8 @@ public class Survey extends BaseEntity {
 
     @OneToMany(mappedBy = "survey")
     private List<Response> responses = new ArrayList<>();
+
+    public void updateStatus(int i) {
+        setStatus(i);
+    }
 }
