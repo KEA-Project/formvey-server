@@ -41,6 +41,10 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Response> responses = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shortanswer_id")
+    private ShortAnswer shortAnswer;
+
     //--------------------------------------------------------------
 
     public void update(PatchMemberReq dto) {
