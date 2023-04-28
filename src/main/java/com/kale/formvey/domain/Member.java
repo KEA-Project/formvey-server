@@ -27,10 +27,8 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false)
     private String email;
-
     @Column(nullable = false)
     private String nickname;
-
     private String password;
 
     private int point;

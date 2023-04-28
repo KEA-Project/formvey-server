@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
@@ -16,16 +17,28 @@ import org.springframework.web.bind.annotation.*;
 public class SurveyController {
     private final SurveyService surveyService;
     /**
-     * 설문 생성
-     * [POST] /surveys/create/{memberId}
+     * 첫 설문 생성(배포 / 임시) - status = 1 -> 짧폼등록 x, 임시저장  / status = 1 -> 짧폼등록 o, status = 2
+     * [POST] /surveys/create/{status}/{memberId}
      * @return BaseResponse<PostSurveyRes>
      */
     @ResponseBody
-    @PostMapping("/create/{memberId}")
-    private BaseResponse<PostSurveyRes> createSurvey(@RequestBody PostSurveyReq dto, @PathVariable Long memberId) {
-        PostSurveyRes postSurveyRes = surveyService.createSurvey(memberId, dto);
+    @PostMapping("/create/{status}/{memberId}")
+    private BaseResponse<PostSurveyRes> createSurvey(@RequestBody PostSurveyReq dto, @PathVariable int status, @PathVariable Long memberId) {
+        PostSurveyRes postSurveyRes = surveyService.createSurvey(memberId, dto, status);
         return new BaseResponse<>(postSurveyRes);
     }
+    /**
+     * 존재하는 설문 생성(배포 / 임시) - status = 1 -> 짧폼등록 x, 임시저장  / status = 1 -> 짧폼등록 o, status = 2
+     * [POST] /surveys/temp/{memberId}
+     * @return BaseResponse<PostSurveyRes>
+     */
+    @ResponseBody
+    @PutMapping("/create/{status}/{surveyId}/{memberId}")
+    private BaseResponse<PostSurveyRes> updateSurvey(@RequestBody PostSurveyReq dto, @PathVariable int status, @PathVariable Long surveyId, @PathVariable Long memberId) {
+        PostSurveyRes postSurveyRes = surveyService.updateSurvey(surveyId, memberId, dto, status);
+        return new BaseResponse<>(postSurveyRes);
+    }
+
     /**
      * 설문 삭제
      * [DELETE] /surveys/delete/{memberId}
@@ -37,9 +50,4 @@ public class SurveyController {
         String result = "설문이 삭제되었습니다.";
         return new BaseResponse<>(result);
     }
-    /**
-     * 설문 응답
-     * [DELETE] /surveys/delete/{memberId}
-     * @return BaseResponse<PostSurveyRes>
-     */
 }
