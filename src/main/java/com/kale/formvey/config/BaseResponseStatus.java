@@ -30,6 +30,9 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
+    //survey
+    SURVEYS_EMPTY_SURVEY_ID(false, 2030, "설문 아이디 값을 확인해주세요."),
+
     /**
      * 3000 : Response 오류
      */
