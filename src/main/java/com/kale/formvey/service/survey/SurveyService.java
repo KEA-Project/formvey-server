@@ -101,13 +101,13 @@ public class SurveyService {
     /**
      * 설문 내용 조회
      */
-    public GetSurveyInfoRes getSurveyInfo(Long memberId, Long surveyId) throws BaseException{
+    public GetSurveyInfoRes getSurveyInfo(Long surveyId) throws BaseException{
         try{
             // 해당 설문 id가 존재하지 않을 때
             if (surveyRepository.findById(surveyId).isEmpty())
                 throw new BaseException(SURVEYS_EMPTY_SURVEY_ID);
 
-            GetSurveyInfoRes getSurveyInfoRes=new GetSurveyInfoRes();
+            GetSurveyInfoRes getSurveyInfoRes=surveyRepository.findSurveyById(surveyId);
 
             return  getSurveyInfoRes;
 

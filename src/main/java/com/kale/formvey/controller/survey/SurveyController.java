@@ -126,7 +126,7 @@ public class SurveyController {
     /**
      * 설문 내용 조회
      * [GET] /surveys/info/{surveyId}
-     * @return BaseResponse<GetSurveyRes>
+     * @return BaseResponse<GetSurveyInfoRes>
      */
     @ResponseBody
     @GetMapping("/info/{surveyId}")
@@ -135,20 +135,15 @@ public class SurveyController {
     @ApiResponses({
             @ApiResponse(code=2001, message="JWT를 입력해주세요."),
             @ApiResponse(code=2002, message="유효하지 않은 JWT입니다."),
-            @ApiResponse(code=2003, message="권한이 없는 유저의 접근입니다."),
             @ApiResponse(code=2030, message="설문 아이디 값을 확인해주세요."),
             @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
     })
-    public BaseResponse<GetSurveyInfoRes> getSurveyInfo(@PathVariable Long surveyId, @RequestBody GetSurveyReq getSurveyReq){
+    public BaseResponse<GetSurveyInfoRes> getSurveyInfo(@PathVariable Long surveyId){
         try {
             //jwt에서 idx 추출.
             Long memberIdByJwt = jwtService.getUserIdx();
-            //memberId와 접근한 유저가 같은지 확인
-            if(getSurveyReq.getMemberId()!= memberIdByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
 
-            GetSurveyInfoRes getSurveyInfoRes=surveyService.getSurveyInfo(memberIdByJwt,surveyId);
+            GetSurveyInfoRes getSurveyInfoRes=surveyService.getSurveyInfo(surveyId);
 
             return new BaseResponse<>(getSurveyInfoRes);
 
