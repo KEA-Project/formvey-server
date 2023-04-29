@@ -50,10 +50,10 @@ public class Survey extends BaseEntity {
 
     private String exitUrl;
 
-    @OneToMany(mappedBy = "survey")
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
     private List<Question> questions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "survey")
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
     private List<Response> responses = new ArrayList<>();
 
     public void update(PostSurveyReq dto, Member member) {

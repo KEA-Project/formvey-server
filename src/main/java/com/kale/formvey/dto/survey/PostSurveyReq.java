@@ -51,4 +51,7 @@ public class PostSurveyReq {
                 .exitUrl(dto.exitUrl)
                 .build();
     }
+    public boolean isUrlNull(){
+        return this.getUrl() == null;
+    }
 }
