@@ -30,73 +30,63 @@ public class AuthService {
     /**
      * 이메일 로그인 및 jwt 생성
      */
-    public PostLoginRes emailLogin(PostLoginReq dto) throws BaseException{
-        try{
-            // 존재하지 않는 이메일
-            if (memberRepository.findByEmail(dto.getEmail()).isEmpty())
-                throw new BaseException(POST_USERS_EMPTY_EMAIL);
+    public PostLoginRes emailLogin(PostLoginReq dto) {
+        // 존재하지 않는 이메일
+        if (memberRepository.findByEmail(dto.getEmail()).isEmpty())
+            throw new BaseException(POST_USERS_EMPTY_EMAIL);
 
-            // 비밀번호가 틀림
-            if (!memberRepository.findByEmail(dto.getEmail()).get().getPassword().equals(dto.getPassword()))
-                throw new BaseException(POST_USERS_WRONG_PASSWORD);
+        // 비밀번호가 틀림
+        if (!memberRepository.findByEmail(dto.getEmail()).get().getPassword().equals(dto.getPassword()))
+            throw new BaseException(POST_USERS_WRONG_PASSWORD);
 
-            //jwt 생성 후 반환
-            Member member = memberRepository.findByEmail(dto.getEmail()).get();
-            member.updateStatus(1);
-            memberRepository.save(member);
-            String jwt = jwtService.createJwt(member.getId());
+        //jwt 생성 후 반환
+        Member member = memberRepository.findByEmail(dto.getEmail()).get();
+        member.updateStatus(1);
+        memberRepository.save(member);
+        String jwt = jwtService.createJwt(member.getId());
 
-            return new PostLoginRes(member.getId(),jwt);
-
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
+        return new PostLoginRes(member.getId(), jwt);
     }
 
     /**
      * 카카오 로그인 및 jwt 생성
      */
-    public PostLoginRes kakaoLogin(String token) throws BaseException{
-        try{
-            // token으로 사용자 정보 가져오기
-            PostMemberReq info=getKakaoInfo(token);
+    public PostLoginRes kakaoLogin(String token) {
 
-            // 존재하지 않는 이메일(신규 회원)이면 회원가입 자동진행 후 로그인
-            if (memberRepository.findByEmail(info.getEmail()).isEmpty()){
+        // token으로 사용자 정보 가져오기
+        PostMemberReq info = getKakaoInfo(token);
 
-                Member member = PostMemberReq.toEntity(info);
-                member = memberRepository.save(member);
+        // 존재하지 않는 이메일(신규 회원)이면 회원가입 자동진행 후 로그인
+        if (memberRepository.findByEmail(info.getEmail()).isEmpty()) {
 
-                // jwt 생성 후 반환
-                String jwt=jwtService.createJwt(member.getId());
+            Member member = PostMemberReq.toEntity(info);
+            member = memberRepository.save(member);
 
-                return new PostLoginRes(member.getId(),jwt);
-            }
-
-            // 존재하는 이메일이면 로그인 진행
             // jwt 생성 후 반환
-            Member member = memberRepository.findByEmail(info.getEmail()).get();
-            member.updateStatus(1);
-            memberRepository.save(member);
-
             String jwt = jwtService.createJwt(member.getId());
 
-            return new PostLoginRes(member.getId(),jwt);
-
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
+            return new PostLoginRes(member.getId(), jwt);
         }
+
+        // 존재하는 이메일이면 로그인 진행
+        // jwt 생성 후 반환
+        Member member = memberRepository.findByEmail(info.getEmail()).get();
+        member.updateStatus(1);
+        memberRepository.save(member);
+
+        String jwt = jwtService.createJwt(member.getId());
+
+        return new PostLoginRes(member.getId(), jwt);
     }
 
     /**
      * 카카오 서버에서 회원가입에 필요한 사용자 정보 가져오기
      */
-    public PostMemberReq getKakaoInfo(String token) throws BaseException {
-
+    public PostMemberReq getKakaoInfo(String token) {
         String reqURL = "https://kapi.kakao.com/v2/user/me";
-        PostMemberReq info=new PostMemberReq();
-        String email="";
-        String nickName="";
+        PostMemberReq info = new PostMemberReq();
+        String email = "";
+        String nickName = "";
 
         // access_token을 이용하여 사용자 정보 조회
         try {
@@ -151,18 +141,13 @@ public class AuthService {
     /**
      * 로그아웃
      */
-    public void logOut(Long memberId) throws BaseException{
-        try{
-            // 해당 유저 id가 존재하지 않을 때
-            if (memberRepository.findById(memberId).isEmpty())
-                throw new BaseException(USERS_EMPTY_USER_ID);
+    public void logOut(Long memberId) {
+        // 해당 유저 id가 존재하지 않을 때
+        if (memberRepository.findById(memberId).isEmpty())
+            throw new BaseException(USERS_EMPTY_USER_ID);
 
-            Member member = memberRepository.findById(memberId).get();
-            member.updateStatus(0);
-            memberRepository.save(member);
-
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
+        Member member = memberRepository.findById(memberId).get();
+        member.updateStatus(0);
+        memberRepository.save(member);
     }
 }

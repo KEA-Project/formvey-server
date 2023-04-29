@@ -37,9 +37,9 @@ public class Question extends BaseEntity {
 
     private int isShort;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Choice> choices = new ArrayList<>();
 
-    @OneToOne(mappedBy = "question")
+    @OneToOne(mappedBy = "question", cascade = CascadeType.REMOVE)
     private Answer answer;
 }

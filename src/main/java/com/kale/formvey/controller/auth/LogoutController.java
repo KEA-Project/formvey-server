@@ -21,7 +21,6 @@ import static com.kale.formvey.config.BaseResponseStatus.INVALID_USER_JWT;
 @RequestMapping("/logout")
 public class LogoutController {
     private final AuthService authService;
-
     private final JwtService jwtService;
 
     /**
@@ -32,31 +31,24 @@ public class LogoutController {
     @ResponseBody
     @PatchMapping("/{memberId}")
     @ApiOperation(value = "로그아웃", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
-    @ApiImplicitParam(name="memberId", value="로그아웃할 유저 인덱스", required = true)
+    @ApiImplicitParam(name = "memberId", value = "로그아웃할 유저 인덱스", required = true)
     @ApiResponses({
-            @ApiResponse(code=2001, message="JWT를 입력해주세요."),
-            @ApiResponse(code=2002, message="유효하지 않은 JWT입니다."),
-            @ApiResponse(code=2003, message="권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code=2010, message="유저 아이디 값을 확인해주세요."),
-            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
+            @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
+            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
+            @ApiResponse(code = 2010, message = "유저 아이디 값을 확인해주세요."),
+            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
     })
     private BaseResponse<String> emailLogin(@PathVariable("memberId") Long memberId) {
-        try {
-            //jwt에서 idx 추출.
-            Long memberIdByJwt = jwtService.getUserIdx();
-            //memberId와 접근한 유저가 같은지 확인
-            if(memberId!= memberIdByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
-
-            authService.logOut(memberId);
-            String result = "회원 로그아웃을 완료했습니다.";
-
-            return new BaseResponse<>(result);
-
-        } catch (BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
         }
-    }
+        authService.logOut(memberId);
+        String result = "회원 로그아웃을 완료했습니다.";
 
+        return new BaseResponse<>(result);
+    }
 }

@@ -27,19 +27,14 @@ public class LoginController {
     @PostMapping("/email")
     @ApiOperation("이메일 로그인")
     @ApiResponses({
-            @ApiResponse(code=2014, message="비밀번호가 일치하지 않습니다."),
-            @ApiResponse(code=2015, message="존재하지 않는 이메일입니다."),
-            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2014, message = "비밀번호가 일치하지 않습니다."),
+            @ApiResponse(code = 2015, message = "존재하지 않는 이메일입니다."),
+            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
     })
     private BaseResponse<PostLoginRes> emailLogin(@RequestBody PostLoginReq dto) {
-        try {
-            PostLoginRes postLoginRes = authService.emailLogin(dto);
+        PostLoginRes postLoginRes = authService.emailLogin(dto);
 
-            return new BaseResponse<>(postLoginRes);
-
-        } catch (BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
-        }
+        return new BaseResponse<>(postLoginRes);
     }
 
     /**
@@ -51,16 +46,11 @@ public class LoginController {
     @PostMapping("/kakao/{access-token}")
     @ApiOperation("카카오 소셜 로그인")
     @ApiResponses({
-            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
     })
     private BaseResponse<PostLoginRes> kakaoLogin(@PathVariable("access-token") String token) {
-        try {
-            PostLoginRes postLoginRes = authService.kakaoLogin(token);
+        PostLoginRes postLoginRes = authService.kakaoLogin(token);
 
-            return new BaseResponse<>(postLoginRes);
-            
-        } catch (BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
-        }
+        return new BaseResponse<>(postLoginRes);
     }
 }

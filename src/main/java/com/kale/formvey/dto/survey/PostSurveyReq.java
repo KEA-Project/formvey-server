@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +23,13 @@ import java.util.List;
 public class PostSurveyReq {
     private String surveyTitle;
     private String surveyContent;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     private int responseCnt;
     private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
-    private int rewardOption; // 0 -> 리워드 지정 x, 1 -> 리워드 랜덤 발송, 2 -> 리워드 지정 발송
+
+    private int isPublic; // 0 -> 게시판 등록x, 1 -> 게시판 등록o
     private String url;
     private String exitUrl;
 
@@ -43,9 +45,12 @@ public class PostSurveyReq {
                 .endDate(dto.endDate)
                 .responseCnt(0)
                 .isAnonymous(dto.isAnonymous)
-                .rewardOption(dto.rewardOption)
+                .isPublic(dto.isPublic)
                 .url(dto.url)
                 .exitUrl(dto.exitUrl)
                 .build();
+    }
+    public boolean isUrlNull(){
+        return this.getUrl() == null;
     }
 }
