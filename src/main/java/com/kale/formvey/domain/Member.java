@@ -1,58 +1,24 @@
 package com.kale.formvey.domain;
 
-import com.kale.formvey.dto.member.PatchMemberReq;
-import com.kale.formvey.dto.member.PostMemberReq;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@SequenceGenerator(
-        name = "MEMBER_SEQ_GENERATOR"
-        , sequenceName = "MEMBER_SEQ"
-        , initialValue = 1
-        , allocationSize = 1
-)
-@Builder
-@Getter
-public class Member extends BaseEntity {
+@Getter @Setter
+public class Member {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ_GENERATOR")
-    @Column(name = "member_id")
+    @GeneratedValue
     private Long id;
-
-    @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String nickname;
-
+    private String nickName;
     private String password;
-
+    private String ageRange;
+    private String gender;
     private int point;
-
-    @OneToMany(mappedBy = "member")
-    private List<Survey> surveys = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Response> responses = new ArrayList<>();
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shortanswer_id")
-    private ShortAnswer shortAnswer;
-
-    //--------------------------------------------------------------
-
-    public void update(PatchMemberReq dto) {
-        this.nickname = dto.getNickname();
-        this.password = dto.getPassword();
-    }
-
-    public void updateStatus(int i) {
-        setStatus(i);
-    }
 }

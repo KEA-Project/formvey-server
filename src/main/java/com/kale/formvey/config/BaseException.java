@@ -2,13 +2,11 @@ package com.kale.formvey.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
-public class BaseException extends RuntimeException {
+public class BaseException extends Exception {
     private BaseResponseStatus status;
 }
