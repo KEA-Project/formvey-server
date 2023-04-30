@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +23,8 @@ import java.util.List;
 public class PostSurveyReq {
     private String surveyTitle;
     private String surveyContent;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     private int responseCnt;
     private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능

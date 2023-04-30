@@ -5,7 +5,9 @@ import com.kale.formvey.domain.Choice;
 import com.kale.formvey.domain.Member;
 import com.kale.formvey.domain.Question;
 import com.kale.formvey.domain.Survey;
+import com.kale.formvey.dto.choice.GetChoiceInfoRes;
 import com.kale.formvey.dto.choice.PostChoiceReq;
+import com.kale.formvey.dto.question.GetQuestionInfoRes;
 import com.kale.formvey.dto.question.PostQuestionReq;
 import com.kale.formvey.dto.survey.GetSurveyInfoRes;
 import com.kale.formvey.dto.survey.GetSurveyListRes;
@@ -20,7 +22,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.kale.formvey.config.BaseResponseStatus.*;
 
@@ -105,13 +109,24 @@ public class SurveyService {
     /**
      * 설문 내용 조회
      */
-    public GetSurveyInfoRes getSurveyInfo(Long memberId, Long surveyId) {
+    public GetSurveyInfoRes getSurveyInfo(Long surveyId) {
         // 해당 설문 id가 존재하지 않을 때
         if (surveyRepository.findById(surveyId).isEmpty())
             throw new BaseException(SURVEYS_EMPTY_SURVEY_ID);
 
-        GetSurveyInfoRes getSurveyInfoRes = new GetSurveyInfoRes();
+        Survey survey = surveyRepository.findById(surveyId).get();
 
-        return getSurveyInfoRes;
+        List<GetQuestionInfoRes> questions = survey.getQuestions().stream()
+                .map(question -> {
+                    List<GetChoiceInfoRes> choices = question.getChoices().stream()
+                            .map(choice -> new GetChoiceInfoRes(choice.getQuestion().getId(),choice.getChoiceIndex(), choice.getChoiceContent()))
+                            .collect(Collectors.toList());
+                    return new GetQuestionInfoRes(question.getSurvey().getId(),question.getQuestionIdx(), question.getQuestionTitle(),
+                            question.getType(), question.getIsEssential(), question.getIsShort(), choices);
+                })
+                .collect(Collectors.toList());
+
+        return new GetSurveyInfoRes(survey.getMember().getId(),survey.getSurveyTitle(), survey.getSurveyContent(), survey.getStartDate(), survey.getEndDate(),
+                survey.getResponseCnt(), survey.getIsAnonymous(), survey.getUrl(), survey.getExitUrl(), survey.getStatus(),questions);
     }
 }

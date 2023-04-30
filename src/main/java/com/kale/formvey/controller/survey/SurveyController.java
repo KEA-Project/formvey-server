@@ -23,7 +23,7 @@ public class SurveyController {
 
     /**
      * 첫 설문 생성(배포 / 임시) - status = 1 -> 짧폼등록 x(임시저장 ) / status = 2 -> 짧폼등록 o
-     * [POST] /surveys/create/{status}/{memberId}
+     * [POST] /surveys/create
      * @return BaseResponse<PostSurveyRes>
      */
     @ResponseBody
@@ -43,7 +43,7 @@ public class SurveyController {
 
     /**
      * 존재하는 설문 업데이트(배포 / 임시) - status = 1 -> 짧폼등록 x(임시저장)  / status = 2 -> 짧폼등록 o
-     * [POST] /surveys/update/{status}/{surveyId}
+     * [PUT] /surveys/update/{surveyId}
      * @return BaseResponse<PostSurveyRes>
      */
     @ResponseBody
@@ -118,7 +118,7 @@ public class SurveyController {
     /**
      * 설문 내용 조회
      * [GET] /surveys/info/{surveyId}
-     * @return BaseResponse<GetSurveyRes>
+     * @return BaseResponse<GetSurveyInfoRes>
      */
     @ResponseBody
     @GetMapping("/info/{surveyId}")
@@ -131,14 +131,11 @@ public class SurveyController {
             @ApiResponse(code = 2030, message = "설문 아이디 값을 확인해주세요."),
             @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
     })
-    public BaseResponse<GetSurveyInfoRes> getSurveyInfo(@PathVariable Long surveyId, @RequestBody GetSurveyReq getSurveyReq) {
+    public BaseResponse<GetSurveyInfoRes> getSurveyInfo(@PathVariable Long surveyId) {
         //jwt에서 idx 추출.
         Long memberIdByJwt = jwtService.getUserIdx();
-        //memberId와 접근한 유저가 같은지 확인
-        if (getSurveyReq.getMemberId() != memberIdByJwt) {
-            return new BaseResponse<>(INVALID_USER_JWT);
-        }
-        GetSurveyInfoRes getSurveyInfoRes = surveyService.getSurveyInfo(memberIdByJwt, surveyId);
+
+        GetSurveyInfoRes getSurveyInfoRes = surveyService.getSurveyInfo(surveyId);
 
         return new BaseResponse<>(getSurveyInfoRes);
     }
