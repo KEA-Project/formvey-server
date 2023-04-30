@@ -30,6 +30,7 @@ public class PostQuestionReq {
 
     private int isShort;
 
+    //-----------------------------------------------------------------------
     public static Question toEntity(Survey survey, PostQuestionReq dto){
         return Question.builder()
                 .survey(survey)

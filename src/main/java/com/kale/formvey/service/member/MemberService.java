@@ -10,12 +10,14 @@ import com.kale.formvey.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.kale.formvey.config.BaseResponseStatus.POST_USERS_EXISTS_EMAIL;
-import static com.kale.formvey.config.BaseResponseStatus.USERS_EMPTY_USER_ID;
+import static com.kale.formvey.config.BaseResponseStatus.*;
+import static com.kale.formvey.utils.ValidationRegex.isRegexEmail;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+
     /**
      * 이메일 회원가입
      */
@@ -24,13 +26,21 @@ public class MemberService {
         if (memberRepository.findByEmail(dto.getEmail()).isPresent())
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
 
+        //이메일 정규 표현 검증
+        if (!isRegexEmail(dto.getEmail()))
+            throw new BaseException(POST_USERS_INVALID_EMAIL);
+
+        System.out.println("hello!");
+        //새 유저 생성
         Member member = PostMemberReq.toEntity(dto);
+        member.updateStatus(0);
         member = memberRepository.save(member);
 
         return new PostMemberRes(member.getId());
     }
+
     /**
-     * 사용자 정보 조회
+     * 회원 정보 조회
      */
     public GetMemberRes getMemberInfo(Long memberId) {
         // 해당 유저 id가 존재하지 않을 때
@@ -42,8 +52,9 @@ public class MemberService {
         return new GetMemberRes(member.getId(), member.getEmail(),
                 member.getNickname(), member.getPoint());
     }
+
     /**
-     * 사용자 프로필 수정
+     * 회원 정보 수정
      */
     public void editProfile(Long memberId, PatchMemberReq dto) {
         // 해당 유저 id가 존재하지 않을 때
