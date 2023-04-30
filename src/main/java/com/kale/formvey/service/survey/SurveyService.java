@@ -60,9 +60,7 @@ public class SurveyService {
         Survey survey = surveyRepository.findById(surveyId).get();
         List<Question> questions = questionRepository.findBySurveyId(surveyId);
 
-        for (Question question : questions) { // 질문 리스트 초기화
-            questionRepository.delete(question);
-        }
+        questionRepository.deleteAll(questions);
         survey.update(dto, member);
 
         if (!dto.isUrlNull())

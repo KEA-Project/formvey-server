@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,13 @@ import java.util.List;
 public class SearchService {
     private final SurveyRepository surveyRepository;
     public List<GetSearchBoardRes> getSearchBoard(String keyword, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징 처리 id 내림차순
         Page<Survey> searchedSurveys = surveyRepository.findAllBySearchTitle(keyword, pageRequest);
         List<GetSearchBoardRes> surveys = new ArrayList<>();
 
         for (Survey survey : searchedSurveys) {
             LocalDate nowDate = LocalDate.now();
-            LocalDate endDate = survey.getEndDate();
+            LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
             Period period = nowDate.until(endDate); // 디데이 구하기
 
             GetSearchBoardRes dto = new GetSearchBoardRes(survey.getId(), survey.getSurveyTitle(), period.getDays(), survey.getResponseCnt(), survey.getMember().getNickname());
