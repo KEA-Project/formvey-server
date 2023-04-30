@@ -29,8 +29,9 @@ public class ShortAnswer extends BaseEntity{
     @JoinColumn(name = "shortform_id")
     private ShortForm shortForm;
 
-    private String shortAnswer;
-
-    @OneToOne(mappedBy = "shortAnswer")
+    @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;
+
+    private String shortAnswer;
 }

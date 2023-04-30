@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/shortForms")
+@RequestMapping("/shortforms")
 public class ShortFormController {
 
     private final ShortFormService shortFormService;
 
     /**
      * 짧폼 생성
-     * [POST] /shortForms/create/{surveyId}
+     * [POST] /shortforms/create/{surveyId}
      * @return BaseResponse<PostShortFormRes>
      */
     @ResponseBody
