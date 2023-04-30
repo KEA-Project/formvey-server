@@ -44,8 +44,6 @@ public class Survey extends BaseEntity {
 
     private int isPublic; // 0 -> 게시판 공개 x -> 1 ->
 
-    private int rewardOption; // 0 -> 리워드 지정 x, 1 -> 리워드 랜덤 발송, 2 -> 리워드 지정 발송
-
     private String url;
 
     private String exitUrl;
@@ -65,7 +63,6 @@ public class Survey extends BaseEntity {
         this.responseCnt = 0;
         this.isAnonymous = dto.getIsAnonymous();
         this.isPublic = dto.getIsPublic();
-        this.rewardOption = dto.getRewardOption();
         this.url = dto.getUrl();
         this.exitUrl = dto.getExitUrl();
     }

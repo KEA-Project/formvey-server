@@ -116,7 +116,7 @@ public class SurveyController {
     }
 
     /**
-     * 설문 내용 조회ㅜ
+     * 설문 내용 조회
      * [GET] /surveys/info/{surveyId}
      * @return BaseResponse<GetSurveyRes>
      */

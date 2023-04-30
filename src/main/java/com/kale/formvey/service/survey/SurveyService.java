@@ -69,15 +69,6 @@ public class SurveyService {
         return setQuestion(dto, survey);
     }
 
-    /**
-     * 설문 삭제
-     */
-    public void deleteSurvey(Long surveyId) {
-        //설문과 관련된 모든 것 삭제 필요
-        Survey survey = surveyRepository.findById(surveyId).get();
-        surveyRepository.delete(survey);
-    }
-
     private PostSurveyRes setQuestion(PostSurveyReq dto, Survey survey) {
         for (PostQuestionReq postQuestionReq : dto.getQuestions()) {
             Question question = PostQuestionReq.toEntity(survey, postQuestionReq);
@@ -92,6 +83,14 @@ public class SurveyService {
             }
         }
         return new PostSurveyRes(survey.getId());
+    }
+
+    /**
+     * 설문 삭제
+     */
+    public void deleteSurvey(Long surveyId) {
+        Survey survey = surveyRepository.findById(surveyId).get();
+        surveyRepository.delete(survey); //설문과 관련된 모든 것 삭제
     }
 
     /**
