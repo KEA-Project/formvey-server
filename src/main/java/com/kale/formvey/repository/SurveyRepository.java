@@ -1,9 +1,12 @@
 package com.kale.formvey.repository;
 
 import com.kale.formvey.domain.Survey;
+import com.kale.formvey.dto.choice.GetChoiceInfoRes;
+import com.kale.formvey.dto.question.GetQuestionInfoRes;
 import com.kale.formvey.dto.survey.GetSurveyInfoRes;
 import com.kale.formvey.dto.survey.GetSurveyListRes;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,5 +1,7 @@
 package com.kale.formvey.domain;
 
+import com.kale.formvey.dto.member.PatchMemberReq;
+import com.kale.formvey.dto.survey.PostSurveyReq;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,20 +43,28 @@ public class Survey extends BaseEntity {
 
     private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
 
+    private int isPublic; // 0 -> 게시판 공개 x -> 1 ->
+
     private String url;
 
     private String exitUrl;
 
-    @OneToMany(mappedBy = "survey")
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
     private List<Question> questions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "survey")
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
     private List<Response> responses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "survey")
-    private List<ShortForm> shortforms = new ArrayList<>();
-
-    public void updateStatus(int i) {
-        setStatus(i);
+    public void update(PostSurveyReq dto, Member member) {
+        this.surveyTitle = dto.getSurveyTitle();
+        this.member = member;
+        this.surveyContent = dto.getSurveyContent();
+        this.startDate = dto.getStartDate();
+        this.endDate = dto.getEndDate();
+        this.responseCnt = 0;
+        this.isAnonymous = dto.getIsAnonymous();
+        this.isPublic = dto.getIsPublic();
+        this.url = dto.getUrl();
+        this.exitUrl = dto.getExitUrl();
     }
 }
