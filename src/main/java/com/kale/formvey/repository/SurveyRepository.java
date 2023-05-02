@@ -15,6 +15,9 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
     @Query("select new com.kale.formvey.dto.survey.GetSurveyListRes(s.id, s.surveyTitle, s.surveyContent, s.endDate, s.responseCnt, s.status) from Survey s join s.member m where m.id=:id")
     List<GetSurveyListRes> findSurveyByMember(@Param("id") Long id);
 
+    // 게시판 리스트 조회
+    Page<Survey> findAll(Pageable pageable);
+
     // 게시판 검색 쿼리
     @Query("SELECT s FROM Survey s WHERE s.surveyTitle LIKE %:keyword% OR s.member.nickname LIKE %:keyword%")
     Page<Survey> findAllBySearchTitle(String keyword, Pageable pageable);

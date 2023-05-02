@@ -9,19 +9,21 @@ import com.kale.formvey.dto.choice.GetChoiceInfoRes;
 import com.kale.formvey.dto.choice.PostChoiceReq;
 import com.kale.formvey.dto.question.GetQuestionInfoRes;
 import com.kale.formvey.dto.question.PostQuestionReq;
-import com.kale.formvey.dto.survey.GetSurveyInfoRes;
-import com.kale.formvey.dto.survey.GetSurveyListRes;
-import com.kale.formvey.dto.survey.PostSurveyReq;
-import com.kale.formvey.dto.survey.PostSurveyRes;
+import com.kale.formvey.dto.survey.*;
 import com.kale.formvey.repository.ChoiceRepository;
 import com.kale.formvey.repository.MemberRepository;
 import com.kale.formvey.repository.QuestionRepository;
 import com.kale.formvey.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,6 +95,25 @@ public class SurveyService {
     public void deleteSurvey(Long surveyId) {
         Survey survey = surveyRepository.findById(surveyId).get();
         surveyRepository.delete(survey); //설문과 관련된 모든 것 삭제
+    }
+
+    /**
+     * 게시판 조회
+     */
+    public List<GetSurveyBoardRes> getSurveyBoard(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징 처리 id 내림차순
+        Page<Survey> boardSurveys = surveyRepository.findAll(pageRequest);
+        List<GetSurveyBoardRes> surveys = new ArrayList<>();
+
+        for (Survey survey : boardSurveys) {
+            LocalDate nowDate = LocalDate.now();
+            LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
+            Period period = nowDate.until(endDate); // 디데이 구하기
+
+            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), period.getDays(), survey.getResponseCnt(), survey.getMember().getNickname());
+            surveys.add(dto);
+        }
+        return surveys;
     }
 
     /**

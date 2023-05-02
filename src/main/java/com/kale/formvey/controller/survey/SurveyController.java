@@ -89,6 +89,20 @@ public class SurveyController {
     }
 
     /**
+     * 게시판 리스트 조회
+     * [GET] /surveys/board
+     * @return BaseResponse<List <GetSurveyBoardRes>>
+     */
+    @ResponseBody
+    @GetMapping("/board")
+    @ApiOperation(value = "게시판 리스트 조회")
+    public BaseResponse<List<GetSurveyBoardRes>> getSurveyBoard(@RequestParam("page") int page, @RequestParam("size") int size) {
+        List<GetSurveyBoardRes> getSurveyBoardRes = surveyService.getSurveyBoard(page, size);
+
+        return new BaseResponse<>(getSurveyBoardRes);
+    }
+
+    /**
      * 제작 설문 리스트 조회
      * [GET] /surveys/list/{memberId}
      * @return BaseResponse<List < GetSurveyListRes>>

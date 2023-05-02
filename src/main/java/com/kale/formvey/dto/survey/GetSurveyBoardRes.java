@@ -1,4 +1,4 @@
-package com.kale.formvey.dto.search;
+package com.kale.formvey.dto.survey;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetSearchBoardRes {
+public class GetSurveyBoardRes {
     private Long Id;
     private String surveyTitle;
     private int dDay;
