@@ -28,7 +28,6 @@ public class PostSurveyReq {
 
     private int responseCnt;
     private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
-
     private int isPublic; // 0 -> 게시판 등록x, 1 -> 게시판 등록o
     private String url;
     private String exitUrl;
