@@ -24,7 +24,11 @@ public class ShortFormController {
 
     /**
      * 짧폼 생성
+<<<<<<< HEAD
      * [POST] /shortForms/create/{surveyId}
+=======
+     * [POST] /shortforms/create/{surveyId}
+>>>>>>> 2e373c2363d42a93649e5937c992a213a5b3a14d
      * @return BaseResponse<PostShortFormRes>
      */
     @ResponseBody
@@ -75,5 +79,4 @@ public class ShortFormController {
 
         return new BaseResponse<>(getShortFormRes);
     }
-
 }

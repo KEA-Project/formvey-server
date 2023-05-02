@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,9 +30,9 @@ public class ShortAnswer extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "shortform_id")
     private ShortForm shortForm;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     private String shortAnswer;
-
-    @OneToOne(mappedBy = "shortAnswer")
-    private Member member;
 }
