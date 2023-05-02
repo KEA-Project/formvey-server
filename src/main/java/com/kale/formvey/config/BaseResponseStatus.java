@@ -33,6 +33,9 @@ public enum BaseResponseStatus {
     //survey
     SURVEYS_EMPTY_SURVEY_ID(false, 2030, "설문 아이디 값을 확인해주세요."),
 
+    //shortform
+    SHORTFORMS_EMPTY_SHORTFORM_ID(false, 2050, "숏폼 아이디 값을 확인해주세요."),
+
     /**
      * 3000 : Response 오류
      */

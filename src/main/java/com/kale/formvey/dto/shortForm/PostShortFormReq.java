@@ -21,6 +21,10 @@ public class PostShortFormReq {
 
     private String shortQuestion;
 
+    private int shortType;
+
+    private int shortResponse;
+
     private List<PostShortOptionReq> shortOptions = new ArrayList<>();
 
     //-------------------------------------------------------------
@@ -29,6 +33,8 @@ public class PostShortFormReq {
         return ShortForm.builder()
                 .survey(survey)
                 .shortQuestion(dto.shortQuestion)
+                .shortType(dto.shortType)
+                .shortResponse(0)
                 .build();
     }
 
