@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 public class PostResponseReq {
-    private List<String> contents = new ArrayList<>();
+    private List<PostAnswerReq> answers = new ArrayList<>();
     private LocalDate responseDate;
 
     public static Response toEntity(Member member, Survey survey, PostResponseReq dto){
