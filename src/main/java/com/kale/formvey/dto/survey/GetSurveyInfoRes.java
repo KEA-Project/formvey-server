@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,10 @@ public class GetSurveyInfoRes {
     private Long memberId;
     private String surveyTitle;
     private String surveyContent;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private int responseCnt;
     private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
-    private int rewardOption; // 0 -> 리워드 지정 x, 1 -> 리워드 랜덤 발송, 2 -> 리워드 지정 발송
     private String url;
     private String exitUrl;
     private int status;

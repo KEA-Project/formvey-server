@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,15 +33,13 @@ public class Survey extends BaseEntity {
 
     private String surveyContent;
 
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 
     private int responseCnt;
 
     private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
-
-    private int rewardOption; // 0 -> 리워드 지정 x, 1 -> 리워드 랜덤 발송, 2 -> 리워드 지정 발송
 
     private String url;
 

@@ -42,9 +42,7 @@ public class Member extends BaseEntity {
     private List<Response> responses = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private ShortAnswer shortAnswer;
-
-    //--------------------------------------------------------------
+    private List<ShortAnswer> shortAnswers = new ArrayList<>();
 
     public void update(PatchMemberReq dto) {
         this.nickname = dto.getNickname();
