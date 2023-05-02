@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ShortFormRepository extends JpaRepository<ShortForm, Long> {
     Page<ShortForm> findAll(Pageable pageable);
+
 }

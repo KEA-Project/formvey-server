@@ -5,10 +5,7 @@ import com.kale.formvey.config.BaseException;
 import com.kale.formvey.domain.ShortForm;
 import com.kale.formvey.domain.ShortOption;
 import com.kale.formvey.domain.Survey;
-import com.kale.formvey.dto.shortForm.GetShortFormListRes;
-import com.kale.formvey.dto.shortForm.GetShortFormRes;
-import com.kale.formvey.dto.shortForm.PostShortFormReq;
-import com.kale.formvey.dto.shortForm.PostShortFormRes;
+import com.kale.formvey.dto.shortForm.*;
 import com.kale.formvey.dto.shortOption.GetShortOptionRes;
 import com.kale.formvey.dto.shortOption.PostShortOptionReq;
 import com.kale.formvey.repository.ShortFormRepository;
@@ -24,7 +21,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import static com.kale.formvey.config.BaseResponseStatus.DATABASE_ERROR;
@@ -83,7 +82,6 @@ public class ShortFormService {
         return shortForms;
     }
 
-
     /**
      * 짧폼 내용 조회
      */
@@ -100,4 +98,22 @@ public class ShortFormService {
 
         return new GetShortFormRes(shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType(), options);
     }
+
+    /**
+     * 짧폼 메인 조회
+     */
+//    public List<GetShortFormMainRes> getShortFormMain(int page, int size) {
+//        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending());
+//        Page<ShortForm> mainShortForms = shortFormRepository.findAll(pageRequest);
+//        List<GetShortFormMainRes> shortForms = new ArrayList<>();
+//
+//        for (ShortForm shortForm : mainShortForms) {
+//            GetShortFormMainRes dto = new GetShortFormMainRes(shortForm.getSurvey().getId(), shortForm.getSurvey().getSurveyTitle(),shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType());
+//
+//            shortForms.add(dto);
+//        }
+//
+//        return shortForms;
+//    }
 }
+
