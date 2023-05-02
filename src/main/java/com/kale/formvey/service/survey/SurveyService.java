@@ -138,9 +138,9 @@ public class SurveyService {
         List<GetQuestionInfoRes> questions = survey.getQuestions().stream()
                 .map(question -> {
                     List<GetChoiceInfoRes> choices = question.getChoices().stream()
-                            .map(choice -> new GetChoiceInfoRes(choice.getQuestion().getId(),choice.getChoiceIndex(), choice.getChoiceContent()))
+                            .map(choice -> new GetChoiceInfoRes(choice.getId(),choice.getChoiceIndex(), choice.getChoiceContent()))
                             .collect(Collectors.toList());
-                    return new GetQuestionInfoRes(question.getSurvey().getId(),question.getQuestionIdx(), question.getQuestionTitle(),
+                    return new GetQuestionInfoRes(question.getId(),question.getQuestionIdx(), question.getQuestionTitle(),
                             question.getType(), question.getIsEssential(), question.getIsShort(), choices);
                 })
                 .collect(Collectors.toList());

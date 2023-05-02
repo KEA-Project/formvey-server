@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 public class GetQuestionInfoRes {
 
-    private Long surveyId;
+    private Long questionId;
 
     private int questionIdx;
 

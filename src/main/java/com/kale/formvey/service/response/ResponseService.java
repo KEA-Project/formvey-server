@@ -34,9 +34,9 @@ public class ResponseService {
         response = responseRepository.save(response);
 
         //답변 등록
-        List<Question> questions = questionRepository.findBySurveyId(surveyId);
-        for (int i = 0; i < questions.size(); i++) {
-            answerRepository.save(PostAnswerReq.toEntity(questions.get(i), response, dto.getContents().get(i)));
+        for (int i = 0; i < dto.getAnswers().size(); i++) {
+            Question question=questionRepository.findById(dto.getAnswers().get(i).getQuestionId()).get();
+            answerRepository.save(PostAnswerReq.toEntity(question, response, dto.getAnswers().get(i).getContent()));
         }
     }
 
