@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,13 +19,13 @@ public class PostAnswerReq {
 
     private Long questionId;
 
-    private String content;
+    private List<String> content=new ArrayList<>();
 
-    public static Answer toEntity(Question question, Response response, String content){
+    public static Answer toEntity(Question question, Response response, PostAnswerReq dto){
         return Answer.builder()
                 .question(question)
                 .response(response)
-                .answerContent(content)
+                .answerContent(dto.content.toString())
                 .build();
     }
 }

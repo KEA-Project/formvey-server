@@ -49,6 +49,7 @@ public class SurveyController {
     @ResponseBody
     @PutMapping("/update/{surveyId}")
     @ApiOperation(value = "설문 업데이트", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
+    @ApiImplicitParam(name = "surveyId", value = "수정할 설문 인덱스", required = true)
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),

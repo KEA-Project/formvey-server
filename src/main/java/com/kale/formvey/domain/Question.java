@@ -41,5 +41,5 @@ public class Question extends BaseEntity {
     private List<Choice> choices = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<Answer> answer=new ArrayList<>();
+    private List<Answer> answers=new ArrayList<>();
 }
