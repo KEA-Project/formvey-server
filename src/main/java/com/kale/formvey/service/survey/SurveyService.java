@@ -42,13 +42,10 @@ public class SurveyService {
     /**
      * 설문 첫 생성 컨트롤 메서드 (status = 1 -> 임시저장 / status = 2 -> 배포)
      */
-    public PostSurveyRes createSurvey(Long memberId, PostSurveyReq dto) { // 1 -> 짧폼 저장 x
+    public PostSurveyRes createSurvey(Long memberId, PostSurveyReq dto, int status) { // 1 -> 짧폼 저장 x
         Member member = memberRepository.findById(memberId).get();
         Survey survey = PostSurveyReq.toEntity(member, dto);
-
-        if (!dto.isUrlNull())
-            survey.setStatus(2);
-
+        survey.setStatus(status);
         survey = surveyRepository.save(survey);
 
         return setQuestion(dto, survey);
@@ -57,17 +54,14 @@ public class SurveyService {
     /**
      * 존재하는 설문 컨트롤 메서드 (status = 1 -> 임시저장 / status = 2 -> 배포)
      */
-    public PostSurveyRes updateSurvey(Long surveyId, Long memberId, PostSurveyReq dto) { // 1 -> 짧폼 저장 x
+    public PostSurveyRes updateSurvey(Long surveyId, Long memberId, PostSurveyReq dto, int status) { // 1 -> 짧폼 저장 x
         Member member = memberRepository.findById(memberId).get();
         Survey survey = surveyRepository.findById(surveyId).get();
         List<Question> questions = questionRepository.findBySurveyId(surveyId);
 
         questionRepository.deleteAll(questions);
         survey.update(dto, member);
-
-        if (!dto.isUrlNull())
-            survey.setStatus(2);
-
+        survey.setStatus(status);
         surveyRepository.save(survey);
 
         return setQuestion(dto, survey);
@@ -146,6 +140,6 @@ public class SurveyService {
                 .collect(Collectors.toList());
 
         return new GetSurveyInfoRes(survey.getMember().getId(),survey.getSurveyTitle(), survey.getSurveyContent(), survey.getStartDate(), survey.getEndDate(),
-                survey.getResponseCnt(), survey.getIsAnonymous(), survey.getUrl(), survey.getExitUrl(), survey.getStatus(),questions);
+                survey.getResponseCnt(), survey.getIsAnonymous(), survey.getIsPublic(), survey.getUrl(), survey.getExitUrl(), survey.getStatus(),questions);
     }
 }

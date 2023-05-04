@@ -27,16 +27,16 @@ public class SurveyController {
      * @return BaseResponse<PostSurveyRes>
      */
     @ResponseBody
-    @PostMapping("/create")
+    @PostMapping("/create/{status}")
     @ApiOperation(value = "설문 생성", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
             @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
     })
-    private BaseResponse<PostSurveyRes> createSurvey(@RequestBody PostSurveyReq dto) {
+    private BaseResponse<PostSurveyRes> createSurvey(@RequestBody PostSurveyReq dto, @PathVariable int status) {
         Long memberId = jwtService.getUserIdx();
-        PostSurveyRes postSurveyRes = surveyService.createSurvey(memberId, dto);
+        PostSurveyRes postSurveyRes = surveyService.createSurvey(memberId, dto, status);
 
         return new BaseResponse<>(postSurveyRes);
     }
@@ -47,16 +47,16 @@ public class SurveyController {
      * @return BaseResponse<PostSurveyRes>
      */
     @ResponseBody
-    @PutMapping("/update/{surveyId}")
+    @PutMapping("/update/{surveyId}/{status}")
     @ApiOperation(value = "설문 업데이트", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
             @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
     })
-    private BaseResponse<PostSurveyRes> updateSurvey(@RequestBody PostSurveyReq dto, @PathVariable Long surveyId) {
+    private BaseResponse<PostSurveyRes> updateSurvey(@RequestBody PostSurveyReq dto, @PathVariable Long surveyId, @PathVariable int status) {
         Long memberId = jwtService.getUserIdx();
-        PostSurveyRes postSurveyRes = surveyService.updateSurvey(surveyId, memberId, dto);
+        PostSurveyRes postSurveyRes = surveyService.updateSurvey(surveyId, memberId, dto, status);
 
         return new BaseResponse<>(postSurveyRes);
     }
