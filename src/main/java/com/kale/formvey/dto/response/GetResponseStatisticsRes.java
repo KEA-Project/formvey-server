@@ -1,6 +1,5 @@
 package com.kale.formvey.dto.response;
 
-import com.kale.formvey.domain.Choice;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +13,15 @@ import java.util.List;
 @Getter
 @Setter
 public class GetResponseStatisticsRes {
+    Long questionId;
+
     int questionIdx;
 
     String questionTitle;
 
-    int type;
+    List<MultipleChoiceInfo> multipleChoiceInfos;
 
-    int[] answerCount;
-
-    List<String> answerContent = new ArrayList<>();
+    List<String> subjectiveAnswers = new ArrayList<>();
 }
 
 
