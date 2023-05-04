@@ -19,7 +19,7 @@ public class GetResponseStatisticsRes {
 
     String questionTitle;
 
-    List<MultipleChoiceInfo> multipleChoiceInfos;
+    List<MultipleChoiceInfo> multipleChoiceInfos; // 객관식 옵션에 대한 정보 리스트
 
     List<String> subjectiveAnswers = new ArrayList<>();
 }

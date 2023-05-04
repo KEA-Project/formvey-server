@@ -25,7 +25,6 @@ public class GetSurveyInfoRes {
     private int responseCnt;
     private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
     private int isPublic;
-    private String url;
     private String exitUrl;
     private int status;
     private List<GetQuestionInfoRes> questions = new ArrayList<>();
