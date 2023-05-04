@@ -43,6 +43,5 @@ public class ShortForm extends BaseEntity{
     @OneToMany(mappedBy = "shortForm")
     private List<ShortAnswer> shortAnswer = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shortForm")
-    private List<ShortResult> shortResults = new ArrayList<>();
+
 }
