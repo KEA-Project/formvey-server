@@ -21,7 +21,7 @@ public class PostShortFormReq {
 
     private String shortQuestion;
 
-    private List<PostShortOptionReq> shortOptions = new ArrayList<>();
+    private List<PostChoiceReq> shortOptions = new ArrayList<>();
 
     //-------------------------------------------------------------
 

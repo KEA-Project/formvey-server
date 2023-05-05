@@ -22,24 +22,23 @@ public class ShortFormController {
      * [POST] /shortforms/create/{surveyId}
      * @return BaseResponse<PostShortFormRes>
      */
-    @ResponseBody
-    @PostMapping("/create/{surveyId}")
-    @ApiOperation(value = "짧폼 생성")
-    @ApiImplicitParam(name = "surveyId", value = "짧폼을 생성할 설문 id", required = true)
-    @ApiResponses({
-            @ApiResponse(code=2030, message="설문 아이디 값을 확인해주세요."),
-            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
-    })
-    private BaseResponse<PostShortFormRes> createShortForm(@PathVariable Long surveyId, @RequestBody PostShortFormReq dto) {
-        try{
-
-            PostShortFormRes postShortFormRes = shortFormService.createShortForm(surveyId, dto);
-
-            return new BaseResponse<>(postShortFormRes);
-
-        } catch (BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
-        }
-    }
-
+//    @ResponseBody
+//    @PostMapping("/create/{surveyId}")
+//    @ApiOperation(value = "짧폼 생성")
+//    @ApiImplicitParam(name = "surveyId", value = "짧폼을 생성할 설문 id", required = true)
+//    @ApiResponses({
+//            @ApiResponse(code=2030, message="설문 아이디 값을 확인해주세요."),
+//            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
+//    })
+//    private BaseResponse<PostShortFormRes> createShortForm(@PathVariable Long surveyId, @RequestBody PostShortFormReq dto) {
+//        try{
+//
+//            PostShortFormRes postShortFormRes = shortFormService.createShortForm(surveyId, dto);
+//
+//            return new BaseResponse<>(postShortFormRes);
+//
+//        } catch (BaseException exception){
+//            return new BaseResponse<>(exception.getStatus());
+//        }
+//    }
 }

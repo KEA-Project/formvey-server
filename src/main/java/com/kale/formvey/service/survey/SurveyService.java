@@ -1,19 +1,15 @@
 package com.kale.formvey.service.survey;
 
 import com.kale.formvey.config.BaseException;
-import com.kale.formvey.domain.Choice;
-import com.kale.formvey.domain.Member;
-import com.kale.formvey.domain.Question;
-import com.kale.formvey.domain.Survey;
+import com.kale.formvey.domain.*;
 import com.kale.formvey.dto.choice.GetChoiceInfoRes;
 import com.kale.formvey.dto.choice.PostChoiceReq;
 import com.kale.formvey.dto.question.GetQuestionInfoRes;
 import com.kale.formvey.dto.question.PostQuestionReq;
+import com.kale.formvey.dto.shortForm.PostShortFormReq;
+import com.kale.formvey.dto.shortOption.PostShortOptionReq;
 import com.kale.formvey.dto.survey.*;
-import com.kale.formvey.repository.ChoiceRepository;
-import com.kale.formvey.repository.MemberRepository;
-import com.kale.formvey.repository.QuestionRepository;
-import com.kale.formvey.repository.SurveyRepository;
+import com.kale.formvey.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +34,8 @@ public class SurveyService {
     private final SurveyRepository surveyRepository;
     private final QuestionRepository questionRepository;
     private final ChoiceRepository choiceRepository;
+    private final ShortFormRepository shortFormRepository;
+    private final ShortOptionRepository shortOptionRepository;
 
     /**
      * 설문 첫 생성 컨트롤 메서드 (status = 1 -> 임시저장 / status = 2 -> 배포)
@@ -46,9 +44,9 @@ public class SurveyService {
         Member member = memberRepository.findById(memberId).get();
         Survey survey = PostSurveyReq.toEntity(member, dto);
         survey.setStatus(status);
-        survey = surveyRepository.save(survey);
+        survey = surveyRepository.save(survey); // 본 설문 저장
 
-        return setQuestion(dto, survey);
+        return setQuestion(dto, survey, status);
     }
 
     /**
@@ -64,15 +62,30 @@ public class SurveyService {
         survey.setStatus(status);
         surveyRepository.save(survey);
 
-        return setQuestion(dto, survey);
+        return setQuestion(dto, survey, status);
     }
 
-    private PostSurveyRes setQuestion(PostSurveyReq dto, Survey survey) {
+    private PostSurveyRes setQuestion(PostSurveyReq dto, Survey survey, int status) {
         for (PostQuestionReq postQuestionReq : dto.getQuestions()) {
             Question question = PostQuestionReq.toEntity(survey, postQuestionReq);
             question = questionRepository.save(question);
 
-            // 주관식이 아닌 객관식, 찬부식인 경우
+            if (status == 2) {
+                if (question.getIsShort() == 1) { // 질문 엔티티의 isShort가 1이면 짧폼 저장
+                    PostShortFormReq postShortFormReq = new PostShortFormReq(question.getQuestionTitle(), postQuestionReq.getChoices());
+                    ShortForm shortForm = PostShortFormReq.toEntity(survey, postShortFormReq);
+                    shortFormRepository.save(shortForm);
+
+                    if (postShortFormReq.getShortOptions() != null) {
+                        for (PostChoiceReq postChoiceReq : postShortFormReq.getShortOptions()) {
+                            ShortOption shortOption = PostShortOptionReq.toEntity(shortForm, new PostShortOptionReq(postChoiceReq.getChoiceIdx(), postChoiceReq.getChoiceContent()));
+                            shortOptionRepository.save(shortOption);
+                        }
+                    }
+                }
+            }
+
+            // 주관식이 아닌 객관식일 경우
             if (postQuestionReq.getChoices() != null) {
                 for (PostChoiceReq postChoiceReq : postQuestionReq.getChoices()) {
                     Choice choice = PostChoiceReq.toEntity(question, postChoiceReq);

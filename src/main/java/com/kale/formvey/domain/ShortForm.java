@@ -21,7 +21,6 @@ import java.util.List;
 @Builder
 @Getter
 public class ShortForm extends BaseEntity{
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SHORTFORM_SEQ_GENERATOR")
     @Column(name = "shortform_id")

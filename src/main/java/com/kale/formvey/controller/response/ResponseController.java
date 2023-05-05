@@ -59,21 +59,17 @@ public class ResponseController {
      * @return BaseResponse<List<GetResponseStatisticsRes>>
      */
     @ResponseBody
-    @GetMapping("/statistics/{surveyId}/{memberId}")
+    @GetMapping("/statistics/{surveyId}")
     @ApiOperation(value = "제작 설문 응답 통계 조회", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
-    @ApiImplicitParams({@ApiImplicitParam(name = "surveyId", value = "제작한 설문 인덱스", required = true),
-            @ApiImplicitParam(name = "memberId", value = "조회한 유저 인덱스", required = true)})
+    @ApiImplicitParams({@ApiImplicitParam(name = "surveyId", value = "제작한 설문 인덱스", required = true)})
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다.")
     })
-    public BaseResponse<List<GetResponseStatisticsRes>> getResponseStatistics(@PathVariable Long surveyId, @PathVariable Long memberId) {
+    public BaseResponse<List<GetResponseStatisticsRes>> getResponseStatistics(@PathVariable Long surveyId) {
         //jwt에서 idx 추출.
-        Long memberIdByJwt = jwtService.getUserIdx();
-        //memberId와 접근한 유저가 같은지 확인
-        if (memberId != memberIdByJwt) {
-            return new BaseResponse<>(INVALID_USER_JWT);
-        }
+        Long memberId = jwtService.getUserIdx();
+
         List<GetResponseStatisticsRes> getResponseStatisticsRes = responseService.getResponseStatistics(surveyId);
 
         return new BaseResponse<>(getResponseStatisticsRes);
