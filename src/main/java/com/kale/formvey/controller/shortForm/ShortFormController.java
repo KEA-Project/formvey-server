@@ -2,10 +2,7 @@ package com.kale.formvey.controller.shortForm;
 
 import com.kale.formvey.config.BaseException;
 import com.kale.formvey.config.BaseResponse;
-import com.kale.formvey.dto.shortForm.GetShortFormListRes;
-import com.kale.formvey.dto.shortForm.GetShortFormRes;
-import com.kale.formvey.dto.shortForm.PostShortFormReq;
-import com.kale.formvey.dto.shortForm.PostShortFormRes;
+import com.kale.formvey.dto.shortForm.*;
 import com.kale.formvey.service.shortForm.ShortFormService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -78,5 +75,20 @@ public class ShortFormController {
         GetShortFormRes getShortFormRes = shortFormService.getShortForm(shortFormId);
 
         return new BaseResponse<>(getShortFormRes);
+    }
+
+    /**
+     * 짧폼 메인 조회
+     * [GET] /shortForms/random/{memberId}
+     * @return BaseResponse<GetShortFormMainRes>
+     */
+    @ResponseBody
+    @GetMapping("/random/{memberId}")
+    @ApiOperation(value = "짧폼 랜덤 조회", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
+    @ApiImplicitParam(name = "memberId", value = "로그인한 유저의 인덱스", required = true)
+    public BaseResponse<GetShortFormMainRes> getRandomShortForm(@PathVariable Long memberId) {
+        GetShortFormMainRes getShortFormMainRes = shortFormService.getShortFormMain(memberId);
+
+        return new BaseResponse<>(getShortFormMainRes);
     }
 }
