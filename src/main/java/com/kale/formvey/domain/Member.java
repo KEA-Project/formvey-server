@@ -25,8 +25,9 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(nullable = false)
     private String email;
-
+    @Column(nullable = false)
     private String nickname;
     private String password;
 
@@ -38,7 +39,8 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Response> responses = new ArrayList<>();
 
-    //--------------------------------------------------------------
+    @OneToMany(mappedBy = "member")
+    private List<ShortAnswer> shortAnswers = new ArrayList<>();
 
     public void update(PatchMemberReq dto) {
         this.nickname = dto.getNickname();
