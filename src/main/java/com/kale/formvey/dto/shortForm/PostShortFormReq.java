@@ -21,13 +21,18 @@ public class PostShortFormReq {
 
     private String shortQuestion;
 
-    private List<PostChoiceReq> shortOptions = new ArrayList<>();
+    private int shortType;
 
+    private int shortResponse;
+
+    private List<PostChoiceReq> shortOptions = new ArrayList<>();
     //-------------------------------------------------------------
 
     public static ShortForm toEntity(Survey survey, PostShortFormReq dto){
         return ShortForm.builder()
                 .survey(survey)
+                .shortType(dto.shortType)
+                .shortResponse(0)
                 .shortQuestion(dto.shortQuestion)
                 .build();
     }

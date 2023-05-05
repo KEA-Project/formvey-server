@@ -30,7 +30,6 @@ public class ShortAnswer extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "shortform_id")
     private ShortForm shortForm;
-
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
