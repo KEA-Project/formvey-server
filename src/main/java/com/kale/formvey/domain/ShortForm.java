@@ -32,7 +32,6 @@ public class ShortForm extends BaseEntity{
 
     private String shortQuestion;
     private int shortType;
-
     private int shortResponse;
 
     @OneToMany(mappedBy = "shortForm")

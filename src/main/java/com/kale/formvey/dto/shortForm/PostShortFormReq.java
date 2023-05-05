@@ -20,6 +20,7 @@ import java.util.List;
 public class PostShortFormReq {
 
     private String shortQuestion;
+
     private int shortType;
 
     private int shortResponse;
@@ -30,9 +31,9 @@ public class PostShortFormReq {
     public static ShortForm toEntity(Survey survey, PostShortFormReq dto){
         return ShortForm.builder()
                 .survey(survey)
-                .shortQuestion(dto.shortQuestion)
                 .shortType(dto.shortType)
                 .shortResponse(0)
+                .shortQuestion(dto.shortQuestion)
                 .build();
     }
 
