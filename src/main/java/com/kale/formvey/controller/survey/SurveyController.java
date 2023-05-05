@@ -49,6 +49,7 @@ public class SurveyController {
     @ResponseBody
     @PutMapping("/update/{surveyId}/{status}")
     @ApiOperation(value = "설문 업데이트", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
+    @ApiImplicitParam(name = "surveyId", value = "수정할 설문 인덱스", required = true)
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
@@ -117,14 +118,14 @@ public class SurveyController {
             @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
             @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
     })
-    public BaseResponse<List<GetSurveyListRes>> getSurveyList(@PathVariable Long memberId) {
+    public BaseResponse<List<GetSurveyListRes>> getSurveyList(@PathVariable Long memberId, @RequestParam("page") int page, @RequestParam("size") int size) {
         //jwt에서 idx 추출.
         Long memberIdByJwt = jwtService.getUserIdx();
         //memberId와 접근한 유저가 같은지 확인
         if (memberId != memberIdByJwt) {
             return new BaseResponse<>(INVALID_USER_JWT);
         }
-        List<GetSurveyListRes> getSurveyListRes = surveyService.getSurveyList(memberId);
+        List<GetSurveyListRes> getSurveyListRes = surveyService.getSurveyList(memberId,page,size);
 
         return new BaseResponse<>(getSurveyListRes);
     }
