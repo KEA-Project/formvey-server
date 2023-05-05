@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
 
@@ -24,5 +25,7 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
     @Query("SELECT s FROM Survey s WHERE s.surveyTitle LIKE %:keyword% OR s.member.nickname LIKE %:keyword%")
     Page<Survey> findAllBySearchTitle(String keyword, Pageable pageable);
 
-
+    // 게시판 검색 페이지 쿼리
+    @Query("SELECT s FROM Survey s WHERE s.surveyTitle LIKE %:keyword% OR s.member.nickname LIKE %:keyword%")
+    List<Survey> findAllBySearch(String keyword);
 }

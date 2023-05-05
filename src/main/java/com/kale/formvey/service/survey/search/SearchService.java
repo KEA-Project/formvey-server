@@ -23,12 +23,19 @@ public class SearchService {
         Page<Survey> searchedSurveys = surveyRepository.findAllBySearchTitle(keyword, pageRequest);
         List<GetSurveyBoardRes> surveys = new ArrayList<>();
 
+        int totalPages = surveyRepository.findAllBySearch(keyword).size();
+
+        if(totalPages % size == 0)
+            totalPages = totalPages / size;
+        else
+            totalPages = totalPages / size + 1;
+
         for (Survey survey : searchedSurveys) {
             LocalDate nowDate = LocalDate.now();
             LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
             Period period = nowDate.until(endDate); // 디데이 구하기
 
-            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), period.getDays(), survey.getResponseCnt(), survey.getMember().getNickname());
+            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), period.getDays(), survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
             surveys.add(dto);
         }
         return surveys;

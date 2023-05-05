@@ -112,12 +112,17 @@ public class SurveyService {
         Page<Survey> boardSurveys = surveyRepository.findAll(pageRequest);
         List<GetSurveyBoardRes> surveys = new ArrayList<>();
 
+        int totalPages = surveyRepository.findAll().size();
+
+        totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
+
+
         for (Survey survey : boardSurveys) {
             LocalDate nowDate = LocalDate.now();
             LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
             Period period = nowDate.until(endDate); // 디데이 구하기
 
-            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), period.getDays(), survey.getResponseCnt(), survey.getMember().getNickname());
+            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), period.getDays(), survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
             surveys.add(dto);
         }
         return surveys;
