@@ -71,7 +71,7 @@ public class SurveyService {
             question = questionRepository.save(question);
 
             // 주관식이 아닌 객관식, 찬부식인 경우
-            if (!postQuestionReq.getChoices().isEmpty()) {
+            if (postQuestionReq.getChoices() != null) {
                 for (PostChoiceReq postChoiceReq : postQuestionReq.getChoices()) {
                     Choice choice = PostChoiceReq.toEntity(question, postChoiceReq);
                     choiceRepository.save(choice);
@@ -149,6 +149,6 @@ public class SurveyService {
                 .collect(Collectors.toList());
 
         return new GetSurveyInfoRes(survey.getMember().getId(),survey.getSurveyTitle(), survey.getSurveyContent(), survey.getStartDate(), survey.getEndDate(),
-                survey.getResponseCnt(), survey.getIsAnonymous(), survey.getIsPublic(), survey.getUrl(), survey.getExitUrl(), survey.getStatus(),questions);
+                survey.getResponseCnt(), survey.getIsAnonymous(), survey.getIsPublic(), survey.getExitUrl(), survey.getStatus(),questions);
     }
 }

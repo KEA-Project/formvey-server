@@ -45,8 +45,6 @@ public class Survey extends BaseEntity {
 
     private int isPublic; // 0 -> 게시판 공개 x -> 1 ->
 
-    private String url;
-
     private String exitUrl;
 
     @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
@@ -64,7 +62,10 @@ public class Survey extends BaseEntity {
         this.responseCnt = 0;
         this.isAnonymous = dto.getIsAnonymous();
         this.isPublic = dto.getIsPublic();
-        this.url = dto.getUrl();
         this.exitUrl = dto.getExitUrl();
+    }
+
+    public void increaseResponseCnt(int responseCnt) {
+        this.responseCnt++;
     }
 }
