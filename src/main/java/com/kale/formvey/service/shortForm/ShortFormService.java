@@ -41,32 +41,7 @@ public class ShortFormService {
     private final ShortOptionRepository shortOptionRepository;
     private final ShortAnswerRepository shortAnswerRepository;
 
-    /**
-     * 짧폼 생성
-     */
-    public PostShortFormRes createShortForm(Long surveyId, PostShortFormReq dto) throws BaseException {
-        try {
-            //짧폼 생성
-            Survey survey = surveyRepository.findById(surveyId).get();
-            ShortForm shortForm = PostShortFormReq.toEntity(survey, dto);
 
-            shortForm = shortFormRepository.save(shortForm);
-
-            //짧폼 옵션 생성
-            //주관식이 아닌 객관식, 찬부식인 경우
-            if(!dto.getShortOptions().isEmpty()) {
-                for (PostShortOptionReq postShortOptionReq : dto.getShortOptions()) {
-                    ShortOption shortOption = PostShortOptionReq.toEntity(shortForm, postShortOptionReq);
-                    shortOptionRepository.save(shortOption);
-                }
-            }
-            return new PostShortFormRes(shortForm.getId());
-
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-
-    }
 
     /**
      * 짧폼 리스트 조회
@@ -116,5 +91,29 @@ public class ShortFormService {
 
         return new GetShortFormMainRes(shortForm.getSurvey().getId(), shortForm.getSurvey().getSurveyTitle(), shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType(), options);
     }
+
+//    public PostShortFormRes createShortForm(Long surveyId, PostShortFormReq dto) throws BaseException {
+//        try {
+//            //짧폼 생성
+//            Survey survey = surveyRepository.findById(surveyId).get();
+//            ShortForm shortForm = PostShortFormReq.toEntity(survey, dto);
+//
+//            shortForm = shortFormRepository.save(shortForm);
+//
+//            //짧폼 옵션 생성
+//            //주관식이 아닌 객관식, 찬부식인 경우
+//            if(!dto.getShortOptions().isEmpty()) {
+//                for (PostShortOptionReq postShortOptionReq : dto.getShortOptions()) {
+//                    ShortOption shortOption = PostShortOptionReq.toEntity(shortForm, postShortOptionReq);
+//                    shortOptionRepository.save(shortOption);
+//                }
+//            }
+//            return new PostShortFormRes(shortForm.getId());
+//
+//        } catch (Exception exception) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
+//
+//    }
 }
 

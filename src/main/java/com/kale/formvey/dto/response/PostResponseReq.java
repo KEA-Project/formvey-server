@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,10 @@ import java.util.List;
 @Getter
 @Setter
 public class PostResponseReq {
-    private List<String> contents = new ArrayList<>();
-    private LocalDate responseDate;
+
+    private Long memberId;
+    private List<PostAnswerReq> answers = new ArrayList<>();
+    private LocalDateTime responseDate;
 
     public static Response toEntity(Member member, Survey survey, PostResponseReq dto){
         return Response.builder()

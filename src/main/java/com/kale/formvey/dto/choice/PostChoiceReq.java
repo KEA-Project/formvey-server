@@ -21,8 +21,8 @@ public class PostChoiceReq {
     public static Choice toEntity(Question question, PostChoiceReq dto){
         return Choice.builder()
                 .question(question)
-                .choiceContent(dto.choiceContent)
                 .choiceIndex(dto.choiceIdx)
+                .choiceContent(dto.choiceContent)
                 .build();
     }
 }

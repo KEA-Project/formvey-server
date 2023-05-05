@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class GetChoiceInfoRes {
 
-    private Long questionId;
+    private Long choiceId;
     private int choiceIndex;
     private String choiceContent;
 

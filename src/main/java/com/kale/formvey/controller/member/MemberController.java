@@ -23,7 +23,6 @@ import static com.kale.formvey.config.BaseResponseStatus.INVALID_USER_JWT;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
-
     private final JwtService jwtService;
 
     /**

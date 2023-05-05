@@ -19,35 +19,6 @@ public class ShortFormController {
 
     private final ShortFormService shortFormService;
 
-    /**
-     * 짧폼 생성
-<<<<<<< HEAD
-     * [POST] /shortForms/create/{surveyId}
-=======
-     * [POST] /shortforms/create/{surveyId}
->>>>>>> 2e373c2363d42a93649e5937c992a213a5b3a14d
-     * @return BaseResponse<PostShortFormRes>
-     */
-    @ResponseBody
-    @PostMapping("/create/{surveyId}")
-    @ApiOperation(value = "짧폼 생성")
-    @ApiImplicitParam(name = "surveyId", value = "짧폼을 생성할 설문 id", required = true)
-    @ApiResponses({
-            @ApiResponse(code=2030, message="설문 아이디 값을 확인해주세요."),
-            @ApiResponse(code=2050, message="짧폼 아이디 값을 확인해주세요."),
-            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
-    })
-    private BaseResponse<PostShortFormRes> createShortForm(@PathVariable Long surveyId, @RequestBody PostShortFormReq dto) {
-        try{
-
-            PostShortFormRes postShortFormRes = shortFormService.createShortForm(surveyId, dto);
-
-            return new BaseResponse<>(postShortFormRes);
-
-        } catch (BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
-        }
-    }
 
     /**
      * 짧폼 리스트 조회
@@ -91,4 +62,24 @@ public class ShortFormController {
 
         return new BaseResponse<>(getShortFormMainRes);
     }
+
+//    @ResponseBody
+//    @PostMapping("/create/{surveyId}")
+//    @ApiOperation(value = "짧폼 생성")
+//    @ApiImplicitParam(name = "surveyId", value = "짧폼을 생성할 설문 id", required = true)
+//    @ApiResponses({
+//            @ApiResponse(code=2030, message="설문 아이디 값을 확인해주세요."),
+//            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
+//    })
+//    private BaseResponse<PostShortFormRes> createShortForm(@PathVariable Long surveyId, @RequestBody PostShortFormReq dto) {
+//        try{
+//
+//            PostShortFormRes postShortFormRes = shortFormService.createShortForm(surveyId, dto);
+//
+//            return new BaseResponse<>(postShortFormRes);
+//
+//        } catch (BaseException exception){
+//            return new BaseResponse<>(exception.getStatus());
+//        }
+//    }
 }

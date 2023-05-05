@@ -20,13 +20,11 @@ import java.util.List;
 public class PostShortFormReq {
 
     private String shortQuestion;
-
     private int shortType;
 
     private int shortResponse;
 
-    private List<PostShortOptionReq> shortOptions = new ArrayList<>();
-
+    private List<PostChoiceReq> shortOptions = new ArrayList<>();
     //-------------------------------------------------------------
 
     public static ShortForm toEntity(Survey survey, PostShortFormReq dto){

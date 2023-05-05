@@ -21,7 +21,7 @@ public class Answer extends BaseEntity {
     @Column(name = "answer_id")
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
 
