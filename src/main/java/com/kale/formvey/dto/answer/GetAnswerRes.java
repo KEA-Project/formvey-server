@@ -15,17 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PostAnswerReq {
-
+public class GetAnswerRes {
     private Long questionId;
+    private String answerContent;
 
-    private List<String> content=new ArrayList<>();
-
-    public static Answer toEntity(Question question, Response response, PostAnswerReq dto){
-        return Answer.builder()
-                .question(question)
-                .response(response)
-                .answerContent(dto.content.toString())
-                .build();
-    }
 }

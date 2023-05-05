@@ -6,6 +6,7 @@ import com.kale.formvey.dto.choice.GetChoiceInfoRes;
 import com.kale.formvey.dto.choice.PostChoiceReq;
 import com.kale.formvey.dto.question.GetQuestionInfoRes;
 import com.kale.formvey.dto.question.PostQuestionReq;
+import com.kale.formvey.dto.response.GetResponseListRes;
 import com.kale.formvey.dto.shortForm.PostShortFormReq;
 import com.kale.formvey.dto.shortOption.PostShortOptionReq;
 import com.kale.formvey.dto.survey.*;
@@ -126,10 +127,21 @@ public class SurveyService {
     /**
      * 제작 설문 리스트 조회
      */
-    public List<GetSurveyListRes> getSurveyList(Long memberId) {
-        List<GetSurveyListRes> findSurveys = surveyRepository.findSurveyByMember(memberId);
+    public List<GetSurveyListRes> getSurveyList(Long memberId,int page,int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징 처리 id 내림차순
+        Page<Survey> sur = surveyRepository.findByMemberId(memberId,pageRequest);
+        List<GetSurveyListRes> surveys = new ArrayList<>();
 
-        return findSurveys;
+        for (Survey survey : sur) {
+            LocalDate nowDate = LocalDate.now();
+            LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
+            Period period = nowDate.until(endDate); // 디데이 구하기
+
+            GetSurveyListRes dto = new GetSurveyListRes(survey.getId(), survey.getSurveyTitle(), survey.getSurveyContent(),survey.getEndDate().toString(),
+                    period.getDays(), survey.getResponseCnt(),survey.getStatus());
+            surveys.add(dto);
+        }
+        return surveys;
     }
 
     /**
