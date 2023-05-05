@@ -15,4 +15,6 @@ public class GetSurveyBoardRes {
     private int dDay;
     private int responseCnt;
     private String nickname;
+
+    private int pages;
 }
