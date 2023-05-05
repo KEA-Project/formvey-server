@@ -6,7 +6,6 @@ import com.kale.formvey.dto.choice.GetChoiceInfoRes;
 import com.kale.formvey.dto.choice.PostChoiceReq;
 import com.kale.formvey.dto.question.GetQuestionInfoRes;
 import com.kale.formvey.dto.question.PostQuestionReq;
-import com.kale.formvey.dto.response.GetResponseListRes;
 import com.kale.formvey.dto.shortForm.PostShortFormReq;
 import com.kale.formvey.dto.shortOption.PostShortOptionReq;
 import com.kale.formvey.dto.survey.*;

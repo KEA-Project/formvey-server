@@ -53,6 +53,9 @@ public class Survey extends BaseEntity {
     @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
     private List<Response> responses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
+    private List<ShortForm> shortForms  = new ArrayList<>();
+
     public void update(PostSurveyReq dto, Member member) {
         this.surveyTitle = dto.getSurveyTitle();
         this.member = member;
