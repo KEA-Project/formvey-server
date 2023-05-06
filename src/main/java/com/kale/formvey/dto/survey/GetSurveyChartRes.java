@@ -15,4 +15,10 @@ public class GetSurveyChartRes {
     private int responseCnt;
 
     private int shortFormResponseCnt;
+
+    private int unReleasedSurveyCnt;
+
+    private int releasedSurveyCnt;
+
+    private int closedSurveyCnt;
 }

@@ -32,9 +32,11 @@ import static com.kale.formvey.config.BaseResponseStatus.*;
 public class SurveyService {
     private final MemberRepository memberRepository;
     private final SurveyRepository surveyRepository;
+    private final ResponseRepository responseRepository;
     private final QuestionRepository questionRepository;
     private final ChoiceRepository choiceRepository;
     private final ShortFormRepository shortFormRepository;
+    private final ShortAnswerRepository shortAnswerRepository;
     private final ShortOptionRepository shortOptionRepository;
 
     /**
@@ -170,5 +172,20 @@ public class SurveyService {
 
         return new GetSurveyInfoRes(survey.getMember().getId(),survey.getSurveyTitle(), survey.getSurveyContent(), survey.getStartDate(), survey.getEndDate(),
                 survey.getResponseCnt(), survey.getIsAnonymous(), survey.getIsPublic(), survey.getExitUrl(), survey.getStatus(),questions);
+    }
+
+    /**
+     * 도넛 차트 조회
+     */
+    public GetSurveyChartRes getSurveyChart(Long memberId) {
+        GetSurveyChartRes getSurveyChartRes = new GetSurveyChartRes();
+        getSurveyChartRes.setCreateSurveyCnt(surveyRepository.findByMemberId(memberId).size()); // 제작 설문 수
+        getSurveyChartRes.setResponseCnt(responseRepository.findAllByMemberId(memberId).size());
+        getSurveyChartRes.setShortFormResponseCnt(shortAnswerRepository.findByMemberId(memberId).size());
+        getSurveyChartRes.setUnReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 1).size());
+        getSurveyChartRes.setReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 2).size());
+        getSurveyChartRes.setClosedSurveyCnt(surveyRepository.findAllByStatus(memberId, 3).size());
+
+        return getSurveyChartRes;
     }
 }

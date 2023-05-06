@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -23,10 +24,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.kale.formvey.config.BaseResponseStatus.SURVEYS_EMPTY_SURVEY_ID;
+import static com.kale.formvey.config.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ResponseService {
     private final MemberRepository memberRepository;
     private final SurveyRepository surveyRepository;
@@ -41,6 +43,11 @@ public class ResponseService {
     public void responseSurvey(PostResponseReq dto, Long surveyId, Long memberId) {
         Member member = memberRepository.findById(memberId).get(); // 설문 응답자
         Survey survey = surveyRepository.findById(surveyId).get(); // 응답하고자 하는 설문
+
+        // 응답자가 본인 설문에 응답하는 경우
+        if (survey.getMember().getId().equals(memberId))
+            throw new BaseException(RESPONSE_OWN_SURVEY);
+
         //응답 등록
         Response response = PostResponseReq.toEntity(member, survey, dto);
         response = responseRepository.save(response);
