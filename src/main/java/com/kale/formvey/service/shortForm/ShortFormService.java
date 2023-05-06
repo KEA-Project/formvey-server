@@ -42,11 +42,6 @@ public class ShortFormService {
 
         int totalPages = shortFormRepository.findAll().size();
 
-        if(totalPages % size == 0)
-            totalPages = totalPages / size;
-        else
-            totalPages = totalPages / size + 1;
-
         // 해금 여부 확인
         List<Long> resultList = shortResultRepository.findSurveyIdByMember(memberId);
         int resultStatus;

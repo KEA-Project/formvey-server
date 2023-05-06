@@ -116,9 +116,6 @@ public class SurveyService {
 
         int totalPages = surveyRepository.findAll().size();
 
-        totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
-
-
         for (Survey survey : boardSurveys) {
             LocalDateTime nowDate = LocalDateTime.now();
             LocalDateTime endDate = survey.getEndDate();
@@ -140,8 +137,6 @@ public class SurveyService {
         List<GetSurveyListRes> surveys = new ArrayList<>();
 
         int totalPages = sur.getSize();
-
-        totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
 
         for (Survey survey : sur) {
             LocalDateTime nowDate = LocalDateTime.now();
