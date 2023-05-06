@@ -10,7 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +33,12 @@ public class SearchService {
             totalPages = totalPages / size + 1;
 
         for (Survey survey : searchedSurveys) {
-            LocalDate nowDate = LocalDate.now();
-            LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
-            Period period = nowDate.until(endDate); // 디데이 구하기
+            LocalDateTime nowDate = LocalDateTime.now();
+            LocalDateTime endDate = survey.getEndDate();
 
-            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), period.getDays(), survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
+            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
+
+            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), remainDay, survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
             surveys.add(dto);
         }
         return surveys;
