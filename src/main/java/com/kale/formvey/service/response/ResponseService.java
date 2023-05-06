@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -111,12 +113,13 @@ public class ResponseService {
         totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
 
         for (Response response : res) {
-            LocalDate nowDate = LocalDate.now();
-            LocalDate endDate = response.getSurvey().getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
-            Period period = nowDate.until(endDate); // 디데이 구하기
+            LocalDateTime nowDate = LocalDateTime.now();
+            LocalDateTime endDate = response.getSurvey().getEndDate();
+
+            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
             GetResponseListRes dto = new GetResponseListRes(response.getSurvey().getId(), response.getId(),response.getSurvey().getSurveyTitle(), response.getSurvey().getSurveyContent(),response.getSurvey().getEndDate().toString(),
-                    period.getDays(), response.getSurvey().getStatus(), totalPages);
+                    remainDay, response.getSurvey().getStatus(), totalPages);
             responses.add(dto);
         }
         return responses;

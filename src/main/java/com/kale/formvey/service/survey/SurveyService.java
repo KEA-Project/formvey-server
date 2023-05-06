@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import java.time.LocalDate;
-import java.time.Period;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -120,11 +120,12 @@ public class SurveyService {
 
 
         for (Survey survey : boardSurveys) {
-            LocalDate nowDate = LocalDate.now();
-            LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
-            Period period = nowDate.until(endDate); // 디데이 구하기
+            LocalDateTime nowDate = LocalDateTime.now();
+            LocalDateTime endDate = survey.getEndDate();
 
-            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), period.getDays(), survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
+            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
+
+            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), remainDay, survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
             surveys.add(dto);
         }
         return surveys;
@@ -143,12 +144,13 @@ public class SurveyService {
         totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
 
         for (Survey survey : sur) {
-            LocalDate nowDate = LocalDate.now();
-            LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
-            Period period = nowDate.until(endDate); // 디데이 구하기
+            LocalDateTime nowDate = LocalDateTime.now();
+            LocalDateTime endDate = survey.getEndDate();
+
+            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
             GetSurveyListRes dto = new GetSurveyListRes(survey.getId(), survey.getSurveyTitle(), survey.getSurveyContent(),survey.getEndDate().toString(),
-                    period.getDays(), survey.getResponseCnt(),survey.getStatus(), totalPages);
+                    remainDay, survey.getResponseCnt(),survey.getStatus(), totalPages);
             surveys.add(dto);
         }
         return surveys;
