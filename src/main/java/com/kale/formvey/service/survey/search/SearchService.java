@@ -61,7 +61,7 @@ public class SearchService {
             totalPages = totalPages / size + 1;
 
         for(ShortForm shortForm : searchedShortForms){
-            GetShortFormListRes dto = new GetShortFormListRes(shortForm.getSurvey().getId(), shortForm.getSurvey().getSurveyTitle(), shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType(), shortForm.getShortResponse(), totalPages);
+            GetShortFormListRes dto = new GetShortFormListRes(shortForm.getSurvey().getId(), shortForm.getSurvey().getSurveyTitle(), shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType(), shortForm.getShortResponse(), totalPages, shortForm.getStatus());
             shortForms.add(dto);
         }
         return shortForms;

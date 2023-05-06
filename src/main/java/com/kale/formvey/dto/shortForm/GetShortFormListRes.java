@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetShortFormListRes {
-
     private Long surveyId;
     private String surveyTitle;
     private Long Id;
