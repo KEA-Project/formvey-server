@@ -114,9 +114,6 @@ public class SurveyService {
 
         int totalPages = surveyRepository.findAll().size();
 
-        totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
-
-
         for (Survey survey : boardSurveys) {
             LocalDate nowDate = LocalDate.now();
             LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
