@@ -22,11 +22,11 @@ public class ShortFormController {
 
     /**
      * 짧폼 리스트 조회
-     * [GET] /shortForms/board
+     * [GET] /shortForms/board/{memberId}
      * @return BaseResponse<List<GetShortFormListRes>>
      */
     @ResponseBody
-    @GetMapping("/board")
+    @GetMapping("/board/{memberId}")
     @ApiOperation(value = "짧폼 리스트 조회")
     public BaseResponse<List<GetShortFormListRes>> getShortFormList(@RequestParam("page") int page, @RequestParam("size") int size, @PathVariable Long memberId) {
         List<GetShortFormListRes> getShortFormListRes = shortFormService.getShortFormList(page, size, memberId);
