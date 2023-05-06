@@ -1,4 +1,4 @@
-package com.kale.formvey.dto.survey;
+package com.kale.formvey.dto.shortForm;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetSurveyBoardRes {
-    private Long Id;
+public class GetShortFormListRes {
+
+    private Long surveyId;
     private String surveyTitle;
-    private int dDay;
-    private int responseCnt;
-    private String nickname;
+    private Long Id;
+    private String shortQuestion;
+    private int shortType;
+    private int shortResponse;
 
     private int pages;
 }
