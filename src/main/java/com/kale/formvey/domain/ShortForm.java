@@ -32,9 +32,9 @@ public class ShortForm extends BaseEntity{
 
     private String shortQuestion;
 
-    @OneToMany(mappedBy = "shortForm")
+    @OneToMany(mappedBy = "shortForm", cascade = CascadeType.REMOVE)
     private List<ShortOption> shortOptions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shortForm")
+    @OneToMany(mappedBy = "shortForm", cascade = CascadeType.REMOVE)
     private List<ShortAnswer> shortAnswer = new ArrayList<>();
 }

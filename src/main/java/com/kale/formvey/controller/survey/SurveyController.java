@@ -154,4 +154,21 @@ public class SurveyController {
 
         return new BaseResponse<>(getSurveyInfoRes);
     }
+
+    /**
+     * 도넛 설문 차트 조회
+     * [GET] /surveys/chart/{memberId}
+     * @return BaseResponse<GetSurveyChartRes>
+     */
+    @GetMapping("/chart/{memberId}")
+    @ApiOperation(value = "도넛 차트 조회", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
+    @ApiImplicitParam(name = "surveyId", value = "조회할 설문 인덱스", required = true)
+    @ApiResponses({
+            @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
+            @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
+            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다.")
+    })
+    private BaseResponse<GetSurveyChartRes> getSurveyChart(@PathVariable String memberId) {
+
+    }
 }

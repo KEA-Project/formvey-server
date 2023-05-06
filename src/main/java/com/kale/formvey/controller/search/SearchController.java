@@ -29,4 +29,18 @@ public class SearchController {
 
         return new BaseResponse<>(getSurveyBoardRes);
     }
+
+    /**
+     * 제작 설문 검색
+     * [GET] /searchs/shortforms
+     * @return BaseResponse<GetSearchBoardRes>
+     */
+    @ResponseBody
+    @GetMapping("/shortforms")
+    @ApiOperation(value = "짧폼 게시판 검색", notes = "짧폼 제목, 닉네임 기반 검색")
+    private BaseResponse<List<GetSurveyBoardRes>> getSearchShortBoard(@RequestParam String keyword, @RequestParam("page") int page, @RequestParam("size") int size) {
+        List<GetSurveyBoardRes> getSurveyBoardRes = searchService.getSearchBoard(keyword, page, size);
+
+        return new BaseResponse<>(getSurveyBoardRes);
+    }
 }

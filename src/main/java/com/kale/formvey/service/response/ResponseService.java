@@ -45,7 +45,7 @@ public class ResponseService {
         Response response = PostResponseReq.toEntity(member, survey, dto);
         response = responseRepository.save(response);
 
-        survey.increaseResponseCnt(survey.getResponseCnt());
+        survey.increaseResponseCnt();
         surveyRepository.save(survey);
         
         List<Answer> answer=new ArrayList<>();
@@ -68,9 +68,7 @@ public class ResponseService {
         List<Answer> answers=answerRepository.findByResponseId(responseId);//수정할 답변들
 
         //답변 리스트 초기화
-        for(Answer answer:answers){
-            answerRepository.delete(answer);
-        }
+        answerRepository.deleteAll(answers);
         response.update(dto,member,survey);
         response = responseRepository.save(response);
 
