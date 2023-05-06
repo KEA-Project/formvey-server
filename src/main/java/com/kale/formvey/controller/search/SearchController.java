@@ -1,6 +1,7 @@
 package com.kale.formvey.controller.search;
 
 import com.kale.formvey.config.BaseResponse;
+import com.kale.formvey.dto.shortForm.GetShortFormListRes;
 import com.kale.formvey.dto.survey.GetSurveyBoardRes;
 import com.kale.formvey.service.survey.search.SearchService;
 import io.swagger.annotations.ApiOperation;
@@ -37,10 +38,10 @@ public class SearchController {
      */
     @ResponseBody
     @GetMapping("/shortforms")
-    @ApiOperation(value = "짧폼 게시판 검색", notes = "짧폼 제목, 닉네임 기반 검색")
-    private BaseResponse<List<GetSurveyBoardRes>> getSearchShortBoard(@RequestParam String keyword, @RequestParam("page") int page, @RequestParam("size") int size) {
-        List<GetSurveyBoardRes> getSurveyBoardRes = searchService.getSearchBoard(keyword, page, size);
+    @ApiOperation(value = "짧폼 게시판 검색", notes = "짧폼 제목, 설문 제목 기반 검색")
+    private BaseResponse<List<GetShortFormListRes>> getSearchShortBoard(@RequestParam String keyword, @RequestParam("page") int page, @RequestParam("size") int size) {
+        List<GetShortFormListRes> getShortFormListRes = searchService.getSearchShortBoard(keyword, page, size);
 
-        return new BaseResponse<>(getSurveyBoardRes);
+        return new BaseResponse<>(getShortFormListRes);
     }
 }
