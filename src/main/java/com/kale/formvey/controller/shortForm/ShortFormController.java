@@ -28,8 +28,8 @@ public class ShortFormController {
     @ResponseBody
     @GetMapping("/board")
     @ApiOperation(value = "짧폼 리스트 조회")
-    public BaseResponse<List<GetShortFormListRes>> getShortFormList(@RequestParam("page") int page, @RequestParam("size") int size) {
-        List<GetShortFormListRes> getShortFormListRes = shortFormService.getShortFormList(page, size);
+    public BaseResponse<List<GetShortFormListRes>> getShortFormList(@RequestParam("page") int page, @RequestParam("size") int size, @PathVariable Long memberId) {
+        List<GetShortFormListRes> getShortFormListRes = shortFormService.getShortFormList(page, size, memberId);
 
         return new BaseResponse<>(getShortFormListRes);
     }

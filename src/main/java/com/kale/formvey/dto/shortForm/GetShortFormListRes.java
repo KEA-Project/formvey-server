@@ -17,6 +17,6 @@ public class GetShortFormListRes {
     private String shortQuestion;
     private int shortType;
     private int shortResponse;
-
     private int pages;
+    private int shortResultStatus;
 }

@@ -2,19 +2,13 @@ package com.kale.formvey.service.shortForm;
 
 
 import com.kale.formvey.config.BaseException;
-import com.kale.formvey.domain.ShortAnswer;
-import com.kale.formvey.domain.ShortForm;
-import com.kale.formvey.domain.ShortOption;
-import com.kale.formvey.domain.Survey;
+import com.kale.formvey.domain.*;
 import com.kale.formvey.dto.shortForm.*;
 import com.kale.formvey.dto.shortOption.GetShortOptionRes;
 import com.kale.formvey.dto.shortForm.PostShortFormReq;
 import com.kale.formvey.dto.shortForm.PostShortFormRes;
 import com.kale.formvey.dto.shortOption.PostShortOptionReq;
-import com.kale.formvey.repository.ShortAnswerRepository;
-import com.kale.formvey.repository.ShortFormRepository;
-import com.kale.formvey.repository.ShortOptionRepository;
-import com.kale.formvey.repository.SurveyRepository;
+import com.kale.formvey.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,11 +30,12 @@ import static com.kale.formvey.config.BaseResponseStatus.SHORTFORMS_EMPTY_SHORTF
 @Transactional
 public class ShortFormService {
     private final ShortFormRepository shortFormRepository;
+    private final ShortResultRepository shortResultRepository;
 
     /**
      * 짧폼 리스트 조회
      */
-    public List<GetShortFormListRes> getShortFormList (int page, int size){
+    public List<GetShortFormListRes> getShortFormList (int page, int size, Long memberId){
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending());
         Page<ShortForm> boardShortForms = shortFormRepository.findAll(pageRequest);
         List<GetShortFormListRes> shortForms = new ArrayList<>();
@@ -52,8 +47,17 @@ public class ShortFormService {
         else
             totalPages = totalPages / size + 1;
 
+        // 해금 여부 확인
+        List<Long> resultList = shortResultRepository.findSurveyIdByMember(memberId);
+        int resultStatus;
+
         for(ShortForm shortForm : boardShortForms){
-            GetShortFormListRes dto  = new GetShortFormListRes(shortForm.getSurvey().getId(), shortForm.getSurvey().getSurveyTitle(), shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType(), shortForm.getShortResponse(), totalPages);
+            if (resultList.contains(shortForm.getId()))
+                resultStatus = 1;
+            else
+                resultStatus = 0;
+
+            GetShortFormListRes dto  = new GetShortFormListRes(shortForm.getSurvey().getId(), shortForm.getSurvey().getSurveyTitle(), shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType(), shortForm.getShortResponse(), totalPages, resultStatus);
 
             shortForms.add(dto);
         }
