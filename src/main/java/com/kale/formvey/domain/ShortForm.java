@@ -42,6 +42,9 @@ public class ShortForm extends BaseEntity{
     @OneToMany(mappedBy = "shortForm", cascade = CascadeType.REMOVE)
     private List<ShortAnswer> shortAnswer = new ArrayList<>();
 
+    @OneToMany(mappedBy = "shortForm", cascade = CascadeType.REMOVE)
+    private List<ShortResult> shortResults = new ArrayList<>();
+
     public void increaseResponseCnt() {
         this.shortResponse++;
     }
