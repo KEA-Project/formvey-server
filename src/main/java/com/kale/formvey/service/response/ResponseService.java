@@ -101,13 +101,17 @@ public class ResponseService {
         Page<Response> res = responseRepository.findAllByMemberId(memberId,pageRequest);
         List<GetResponseListRes> responses = new ArrayList<>();
 
+        int totalPages = res.getSize();
+
+        totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
+
         for (Response response : res) {
             LocalDate nowDate = LocalDate.now();
             LocalDate endDate = response.getSurvey().getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
             Period period = nowDate.until(endDate); // 디데이 구하기
 
             GetResponseListRes dto = new GetResponseListRes(response.getSurvey().getId(), response.getId(),response.getSurvey().getSurveyTitle(), response.getSurvey().getSurveyContent(),response.getSurvey().getEndDate().toString(),
-                    period.getDays(), response.getSurvey().getStatus());
+                    period.getDays(), response.getSurvey().getStatus(), totalPages);
             responses.add(dto);
         }
         return responses;

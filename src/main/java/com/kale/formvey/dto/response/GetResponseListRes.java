@@ -19,4 +19,5 @@ public class GetResponseListRes {
     private String endDate;
     private int dDay;
     private int status;
+    private int pages;
 }
