@@ -36,5 +36,4 @@ public class PostShortFormReq {
                 .shortQuestion(dto.shortQuestion)
                 .build();
     }
-
 }

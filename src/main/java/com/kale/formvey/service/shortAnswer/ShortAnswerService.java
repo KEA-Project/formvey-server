@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kale.formvey.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.kale.formvey.config.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,20 +31,20 @@ public class ShortAnswerService {
     /**
      * 짧폼 답변
      */
-    public void responseShortAnswer(PostShortAnswerReq dto, Long shortFormId, Long memberId) throws BaseException {
-        try {
-            Member member = memberRepository.findById(memberId).get(); // 짧폼 답변자
-            ShortForm shortForm = shortFormRepository.findById(shortFormId).get(); // 답변하고자 하는 짧폼
+    public void responseShortAnswer(PostShortAnswerReq dto, Long shortFormId, Long memberId) {
 
-            // 숏폼 답변 등록
-            List<ShortAnswer> shortAnswer = new ArrayList<>();
-            shortAnswer.add(PostShortAnswerReq.toEntity(member, shortForm, dto));
-            shortAnswerRepository.saveAll(shortAnswer);
+        Member member = memberRepository.findById(memberId).get(); // 짧폼 답변자
+        ShortForm shortForm = shortFormRepository.findById(shortFormId).get(); // 답변하고자 하는 짧폼
 
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
+        // 응답자가 본인 설문에 응답하는 경우
+        if (shortForm.getSurvey().getMember().getId().equals(memberId))
+            throw new BaseException(RESPONSE_OWN_SHORTFORM);
 
+        shortForm.increaseResponseCnt(); //응답 증가
+        // 숏폼 답변 등록
+        List<ShortAnswer> shortAnswer = new ArrayList<>();
+        shortAnswer.add(PostShortAnswerReq.toEntity(member, shortForm, dto));
+        shortAnswerRepository.saveAll(shortAnswer);
     }
 
 }

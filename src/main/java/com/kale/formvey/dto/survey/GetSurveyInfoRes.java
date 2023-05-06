@@ -20,8 +20,8 @@ public class GetSurveyInfoRes {
     private Long memberId;
     private String surveyTitle;
     private String surveyContent;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String startDate;
+    private String endDate;
     private int responseCnt;
     private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
     private int isPublic;

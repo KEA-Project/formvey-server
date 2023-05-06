@@ -2,10 +2,7 @@ package com.kale.formvey.controller.response;
 
 import com.kale.formvey.config.BaseResponse;
 import com.kale.formvey.dto.response.*;
-import com.kale.formvey.dto.survey.DeleteSurveyReq;
 import com.kale.formvey.dto.response.PostResponseReq;
-import com.kale.formvey.dto.survey.GetSurveyBoardRes;
-import com.kale.formvey.dto.survey.GetSurveyInfoRes;
 import com.kale.formvey.service.response.ResponseService;
 import com.kale.formvey.utils.JwtService;
 import io.swagger.annotations.*;

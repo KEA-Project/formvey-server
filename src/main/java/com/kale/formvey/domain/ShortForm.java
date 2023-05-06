@@ -31,12 +31,21 @@ public class ShortForm extends BaseEntity{
     private Survey survey;
 
     private String shortQuestion;
+
     private int shortType;
+
     private int shortResponse;
 
-    @OneToMany(mappedBy = "shortForm")
+    @OneToMany(mappedBy = "shortForm", cascade = CascadeType.REMOVE)
     private List<ShortOption> shortOptions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shortForm")
+    @OneToMany(mappedBy = "shortForm", cascade = CascadeType.REMOVE)
     private List<ShortAnswer> shortAnswer = new ArrayList<>();
+
+    @OneToMany(mappedBy = "shortForm", cascade = CascadeType.REMOVE)
+    private List<ShortResult> shortResults = new ArrayList<>();
+
+    public void increaseResponseCnt() {
+        this.shortResponse++;
+    }
 }

@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import java.time.LocalDate;
-import java.time.Period;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,9 +32,11 @@ import static com.kale.formvey.config.BaseResponseStatus.*;
 public class SurveyService {
     private final MemberRepository memberRepository;
     private final SurveyRepository surveyRepository;
+    private final ResponseRepository responseRepository;
     private final QuestionRepository questionRepository;
     private final ChoiceRepository choiceRepository;
     private final ShortFormRepository shortFormRepository;
+    private final ShortAnswerRepository shortAnswerRepository;
     private final ShortOptionRepository shortOptionRepository;
 
     /**
@@ -115,11 +117,12 @@ public class SurveyService {
         int totalPages = surveyRepository.findAll().size();
 
         for (Survey survey : boardSurveys) {
-            LocalDate nowDate = LocalDate.now();
-            LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
-            Period period = nowDate.until(endDate); // 디데이 구하기
+            LocalDateTime nowDate = LocalDateTime.now();
+            LocalDateTime endDate = survey.getEndDate();
 
-            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), period.getDays(), survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
+            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
+
+            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), remainDay, survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
             surveys.add(dto);
         }
         return surveys;
@@ -133,13 +136,18 @@ public class SurveyService {
         Page<Survey> sur = surveyRepository.findByMemberId(memberId,pageRequest);
         List<GetSurveyListRes> surveys = new ArrayList<>();
 
+        int totalPages = sur.getSize();
+
+        totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
+
         for (Survey survey : sur) {
-            LocalDate nowDate = LocalDate.now();
-            LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
-            Period period = nowDate.until(endDate); // 디데이 구하기
+            LocalDateTime nowDate = LocalDateTime.now();
+            LocalDateTime endDate = survey.getEndDate();
+
+            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
             GetSurveyListRes dto = new GetSurveyListRes(survey.getId(), survey.getSurveyTitle(), survey.getSurveyContent(),survey.getEndDate().toString(),
-                    period.getDays(), survey.getResponseCnt(),survey.getStatus());
+                    remainDay, survey.getResponseCnt(),survey.getStatus(), totalPages);
             surveys.add(dto);
         }
         return surveys;
@@ -165,7 +173,22 @@ public class SurveyService {
                 })
                 .collect(Collectors.toList());
 
-        return new GetSurveyInfoRes(survey.getMember().getId(),survey.getSurveyTitle(), survey.getSurveyContent(), survey.getStartDate(), survey.getEndDate(),
+        return new GetSurveyInfoRes(survey.getMember().getId(),survey.getSurveyTitle(), survey.getSurveyContent(), survey.getStartDate().toString(), survey.getEndDate().toString(),
                 survey.getResponseCnt(), survey.getIsAnonymous(), survey.getIsPublic(), survey.getExitUrl(), survey.getStatus(),questions);
+    }
+
+    /**
+     * 도넛 차트 조회
+     */
+    public GetSurveyChartRes getSurveyChart(Long memberId) {
+        GetSurveyChartRes getSurveyChartRes = new GetSurveyChartRes();
+        getSurveyChartRes.setCreateSurveyCnt(surveyRepository.findByMemberId(memberId).size()); // 제작 설문 수
+        getSurveyChartRes.setResponseCnt(responseRepository.findAllByMemberId(memberId).size());
+        getSurveyChartRes.setShortFormResponseCnt(shortAnswerRepository.findByMemberId(memberId).size());
+        getSurveyChartRes.setUnReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 1).size());
+        getSurveyChartRes.setReleasedSurveyCnt(surveyRepository.findAllByStatus(memberId, 2).size());
+        getSurveyChartRes.setClosedSurveyCnt(surveyRepository.findAllByStatus(memberId, 3).size());
+
+        return getSurveyChartRes;
     }
 }

@@ -1,4 +1,4 @@
-package com.kale.formvey.dto.shortForm;
+package com.kale.formvey.dto.shortResult;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,13 +9,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetShortFormListRes {
+public class GetShortResultBoardRes {
+
     private Long surveyId;
     private String surveyTitle;
     private Long Id;
+    private Long shortFormId;
     private String shortQuestion;
     private int shortType;
     private int shortResponse;
-    private int pages;
-    private int shortResultStatus;
+
 }

@@ -39,7 +39,7 @@ public class Response extends BaseEntity {
 
     private LocalDateTime responseDate;
 
-    @OneToMany(mappedBy = "response")
+    @OneToMany(mappedBy = "response", cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
 
     public void updateStatus(int i) {

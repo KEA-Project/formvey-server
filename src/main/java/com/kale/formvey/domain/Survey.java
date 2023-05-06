@@ -68,7 +68,7 @@ public class Survey extends BaseEntity {
         this.exitUrl = dto.getExitUrl();
     }
 
-    public void increaseResponseCnt(int responseCnt) {
+    public void increaseResponseCnt() {
         this.responseCnt++;
     }
 }

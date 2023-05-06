@@ -33,8 +33,12 @@ public enum BaseResponseStatus {
     //survey
     SURVEYS_EMPTY_SURVEY_ID(false, 2030, "설문 아이디 값을 확인해주세요."),
 
+    //response
+    RESPONSE_OWN_SURVEY(false, 2040, "본인이 생성한 설문입니다."),
+
     //shortform
     SHORTFORMS_EMPTY_SHORTFORM_ID(false, 2050, "숏폼 아이디 값을 확인해주세요."),
+    RESPONSE_OWN_SHORTFORM(false, 2051, "본인이 생성한 짧폼입니다."),
 
     /**
      * 3000 : Response 오류

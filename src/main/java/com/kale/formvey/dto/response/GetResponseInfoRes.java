@@ -19,8 +19,8 @@ public class GetResponseInfoRes {
     private Long surveyId;
     private String surveyTitle;
     private String surveyContent;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String startDate;
+    private String endDate;
     private int isAnonymous; // 0 -> 익명x, 1 -> 익명 가능
     private int status;
     private List<GetQuestionInfoRes> questions = new ArrayList<>();
