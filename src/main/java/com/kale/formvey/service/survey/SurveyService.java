@@ -138,13 +138,17 @@ public class SurveyService {
         Page<Survey> sur = surveyRepository.findByMemberId(memberId,pageRequest);
         List<GetSurveyListRes> surveys = new ArrayList<>();
 
+        int totalPages = sur.getSize();
+
+        totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
+
         for (Survey survey : sur) {
             LocalDate nowDate = LocalDate.now();
             LocalDate endDate = survey.getEndDate().toLocalDate(); // 시분초 제외한 설문 종료 날짜 변환
             Period period = nowDate.until(endDate); // 디데이 구하기
 
             GetSurveyListRes dto = new GetSurveyListRes(survey.getId(), survey.getSurveyTitle(), survey.getSurveyContent(),survey.getEndDate().toString(),
-                    period.getDays(), survey.getResponseCnt(),survey.getStatus());
+                    period.getDays(), survey.getResponseCnt(),survey.getStatus(), totalPages);
             surveys.add(dto);
         }
         return surveys;
@@ -170,7 +174,7 @@ public class SurveyService {
                 })
                 .collect(Collectors.toList());
 
-        return new GetSurveyInfoRes(survey.getMember().getId(),survey.getSurveyTitle(), survey.getSurveyContent(), survey.getStartDate(), survey.getEndDate(),
+        return new GetSurveyInfoRes(survey.getMember().getId(),survey.getSurveyTitle(), survey.getSurveyContent(), survey.getStartDate().toString(), survey.getEndDate().toString(),
                 survey.getResponseCnt(), survey.getIsAnonymous(), survey.getIsPublic(), survey.getExitUrl(), survey.getStatus(),questions);
     }
 
