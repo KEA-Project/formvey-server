@@ -138,8 +138,6 @@ public class SurveyService {
 
         int totalPages = sur.getSize();
 
-        totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
-
         for (Survey survey : sur) {
             LocalDateTime nowDate = LocalDateTime.now();
             LocalDateTime endDate = survey.getEndDate();

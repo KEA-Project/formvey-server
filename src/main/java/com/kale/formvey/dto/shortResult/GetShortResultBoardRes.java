@@ -19,4 +19,6 @@ public class GetShortResultBoardRes {
     private int shortType;
     private int shortResponse;
 
+    private int pages;
+
 }

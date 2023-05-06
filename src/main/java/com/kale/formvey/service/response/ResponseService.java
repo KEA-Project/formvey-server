@@ -110,8 +110,6 @@ public class ResponseService {
 
         int totalPages = res.getSize();
 
-        totalPages = (totalPages / size) == 0? totalPages /size : (totalPages / size) + 1;
-
         for (Response response : res) {
             LocalDateTime nowDate = LocalDateTime.now();
             LocalDateTime endDate = response.getSurvey().getEndDate();

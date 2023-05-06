@@ -31,11 +31,6 @@ public class SearchService {
 
         int totalPages = surveyRepository.findAllBySearch(keyword).size();
 
-        if(totalPages % size == 0)
-            totalPages = totalPages / size;
-        else
-            totalPages = totalPages / size + 1;
-
         for (Survey survey : searchedSurveys) {
             LocalDateTime nowDate = LocalDateTime.now();
             LocalDateTime endDate = survey.getEndDate();
@@ -55,10 +50,6 @@ public class SearchService {
 
         int totalPages = shortFormRepository.findAllBySearch(keyword).size();
 
-        if (totalPages % size == 0)
-            totalPages = totalPages / size;
-        else
-            totalPages = totalPages / size + 1;
 
         for(ShortForm shortForm : searchedShortForms){
             GetShortFormListRes dto = new GetShortFormListRes(shortForm.getSurvey().getId(), shortForm.getSurvey().getSurveyTitle(), shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType(), shortForm.getShortResponse(), totalPages, shortForm.getStatus());
