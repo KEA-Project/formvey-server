@@ -137,7 +137,7 @@ public class ResponseService {
                 .map(answer -> new GetAnswerRes(answer.getQuestion().getId(), answer.getAnswerContent()))
                 .collect(Collectors.toList());
 
-        return new GetResponseInfoRes( response.getSurvey().getId(), response.getSurvey().getSurveyTitle(),  response.getSurvey().getSurveyContent(),  response.getSurvey().getStartDate(),  response.getSurvey().getEndDate(),
+        return new GetResponseInfoRes( response.getSurvey().getId(), response.getSurvey().getSurveyTitle(),  response.getSurvey().getSurveyContent(),  response.getSurvey().getStartDate().toString(),  response.getSurvey().getEndDate().toString(),
                 response.getSurvey().getIsAnonymous(), response.getSurvey().getStatus(),questions,answers);
     }
 
