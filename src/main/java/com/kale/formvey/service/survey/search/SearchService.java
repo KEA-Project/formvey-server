@@ -37,7 +37,7 @@ public class SearchService {
 
             int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
-            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getSurveyTitle(), remainDay, survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
+            GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(),survey.getMember().getId(), survey.getSurveyTitle(), remainDay, survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
             surveys.add(dto);
         }
         return surveys;
