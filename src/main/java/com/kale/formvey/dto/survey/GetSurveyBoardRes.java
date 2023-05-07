@@ -10,11 +10,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetSurveyBoardRes {
-    private Long Id;
+    private Long surveyId;
+    private Long memberId;
     private String surveyTitle;
     private int dDay;
     private int responseCnt;
     private String nickname;
-
     private int pages;
 }
