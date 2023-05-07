@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 public class GetShortFormRes {
     private Long surveyId;
+    private String surveyTitle;
     private String shortQuestion;
     private int shortType;
     private List<GetShortOptionRes> options = new ArrayList<>();

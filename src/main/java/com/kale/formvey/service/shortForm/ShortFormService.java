@@ -74,7 +74,7 @@ public class ShortFormService {
                 .map(shortOption -> new GetShortOptionRes(shortOption.getId(), shortOption.getShortIndex(), shortOption.getShortContent()))
                 .collect(Collectors.toList());
 
-        return new GetShortFormRes(shortForm.getId(), shortForm.getShortQuestion(), shortForm.getShortType(), options);
+        return new GetShortFormRes(shortForm.getSurvey().getId(), shortForm.getSurvey().getSurveyTitle(), shortForm.getShortQuestion(), shortForm.getShortType(), options);
     }
 
     /**
