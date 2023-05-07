@@ -103,12 +103,18 @@ public class ResponseService {
     /**
      * 응답 설문 리스트 조회
      */
-    public List<GetResponseListRes> getResponseList(Long memberId, int page, int size) {
+    public GetResponseList getResponseList(Long memberId, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징 처리 id 내림차순
         Page<Response> res = responseRepository.findAllByMemberId(memberId,pageRequest);
-        List<GetResponseListRes> responses = new ArrayList<>();
+        GetResponseList responses = new GetResponseList();
 
-        int totalPages = res.getSize();
+        int totalPageCnt = (int) Math.ceil((double) responseRepository.findAllByMemberId(memberId).size() / size);
+        int releasedPageCnt = (int) Math.ceil((double) responseRepository.findAllByStatus(memberId, 2).size() / size);
+        int closedPageCnt = (int) Math.ceil((double) responseRepository.findAllByStatus(memberId, 3).size() / size);
+
+        responses.setTotalPageCnt(totalPageCnt);
+        responses.setReleasedPageCnt(releasedPageCnt);
+        responses.setClosedPageCnt(closedPageCnt);
 
         for (Response response : res) {
             LocalDateTime nowDate = LocalDateTime.now();
@@ -117,8 +123,8 @@ public class ResponseService {
             int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
             GetResponseListRes dto = new GetResponseListRes(response.getSurvey().getId(), response.getId(),response.getSurvey().getSurveyTitle(), response.getSurvey().getSurveyContent(),response.getSurvey().getEndDate().toString(),
-                    remainDay, response.getSurvey().getStatus(), totalPages);
-            responses.add(dto);
+                    remainDay, response.getSurvey().getStatus());
+            responses.getGetResponseListRes().add(dto);
         }
         return responses;
     }

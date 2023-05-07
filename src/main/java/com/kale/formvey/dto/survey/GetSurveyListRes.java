@@ -25,5 +25,4 @@ public class GetSurveyListRes {
     private int dDay;
     private int responseCnt;
     private int status;
-    private int pages;
 }

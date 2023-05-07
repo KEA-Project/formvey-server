@@ -19,4 +19,9 @@ public interface ResponseRepository extends JpaRepository<Response, Long> {
     //응답 설문 리스트 조회
     @Query("SELECT r FROM Response r join r.member m where m.id=:id and r.status=1")
     List<Response> findAllByMemberId(Long id);
+
+    // 상태별 전체 응답 설문 개수 조회
+    @Query("SELECT r FROM Response r join r.member m where m.id=:id and r.survey.status=:status")
+    List<Response> findAllByStatus(Long id, int status);
+
 }

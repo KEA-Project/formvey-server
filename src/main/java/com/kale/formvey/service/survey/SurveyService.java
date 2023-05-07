@@ -131,12 +131,20 @@ public class SurveyService {
     /**
      * 제작 설문 리스트 조회
      */
-    public List<GetSurveyListRes> getSurveyList(Long memberId,int page,int size) {
+    public GetSurveyList getSurveyList(Long memberId, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징 처리 id 내림차순
         Page<Survey> sur = surveyRepository.findByMemberId(memberId,pageRequest);
-        List<GetSurveyListRes> surveys = new ArrayList<>();
+        GetSurveyList surveys = new GetSurveyList();
 
-        int totalPages = sur.getSize();
+        int totalPageCnt = (int) Math.ceil((double) surveyRepository.findByMemberId(memberId).size() / size);
+        int unReleasedPageCnt = (int) Math.ceil((double) surveyRepository.findAllByStatus(memberId, 1).size() / size);
+        int releasedPageCnt = (int) Math.ceil((double) surveyRepository.findAllByStatus(memberId, 2).size() / size);
+        int closedPageCnt = (int) Math.ceil((double) surveyRepository.findAllByStatus(memberId, 3).size() / size);
+
+        surveys.setTotalPageCnt(totalPageCnt);
+        surveys.setReleasedPageCnt(releasedPageCnt);
+        surveys.setUnReleasedPageCnt(unReleasedPageCnt);
+        surveys.setClosedPageCnt(closedPageCnt);
 
         for (Survey survey : sur) {
             LocalDateTime nowDate = LocalDateTime.now();
@@ -145,8 +153,8 @@ public class SurveyService {
             int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
             GetSurveyListRes dto = new GetSurveyListRes(survey.getId(), survey.getSurveyTitle(), survey.getSurveyContent(),survey.getEndDate().toString(),
-                    remainDay, survey.getResponseCnt(),survey.getStatus(), totalPages);
-            surveys.add(dto);
+                    remainDay, survey.getResponseCnt(),survey.getStatus());
+            surveys.getGetSurveyListRes().add(dto);
         }
         return surveys;
     }
