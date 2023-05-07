@@ -136,10 +136,10 @@ public class SurveyService {
         Page<Survey> sur = surveyRepository.findByMemberId(memberId,pageRequest);
         GetSurveyList surveys = new GetSurveyList();
 
-        int totalPageCnt = (int) Math.ceil((double) surveyRepository.findByMemberId(memberId).size() / size);
-        int unReleasedPageCnt = (int) Math.ceil((double) surveyRepository.findAllByStatus(memberId, 1).size() / size);
-        int releasedPageCnt = (int) Math.ceil((double) surveyRepository.findAllByStatus(memberId, 2).size() / size);
-        int closedPageCnt = (int) Math.ceil((double) surveyRepository.findAllByStatus(memberId, 3).size() / size);
+        int totalPageCnt = surveyRepository.findByMemberId(memberId).size();
+        int unReleasedPageCnt = surveyRepository.findAllByStatus(memberId, 1).size();
+        int releasedPageCnt = surveyRepository.findAllByStatus(memberId, 2).size();
+        int closedPageCnt = surveyRepository.findAllByStatus(memberId, 3).size();
 
         surveys.setTotalPageCnt(totalPageCnt);
         surveys.setReleasedPageCnt(releasedPageCnt);
