@@ -14,6 +14,10 @@ public interface ShortResultRepository extends JpaRepository<ShortResult, Long> 
     @Query("SELECT s FROM ShortResult s WHERE s.member.id =:id")
     Page<ShortResult> findAllByMember(Long id,Pageable pageable);
 
+
+    @Query("SELECT s FROM ShortResult s WHERE s.member.id =:id")
+    List<ShortResult> findAllByMember(Long memberId);
+
     // 전체 짧폼 조회 게시판 (해금 여부 확인용)
     @Query("SELECT s.shortForm.id FROM ShortResult s WHERE s.member.id =:id")
     List<Long> findSurveyIdByMember(Long id);

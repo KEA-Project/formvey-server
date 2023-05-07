@@ -46,7 +46,7 @@ public class ShortResultService {
         Page<ShortResult> boardShortResults = shortResultRepository.findAllByMember(memberId, pageRequest);
         List<GetShortResultBoardRes> shortResults = new ArrayList<>();
 
-        int totalPages = boardShortResults.getSize();
+        int totalPages = shortResultRepository.findAllByMember(memberId).size();
 
         for (ShortResult shortResult : boardShortResults) {
             GetShortResultBoardRes dto = new GetShortResultBoardRes(shortResult.getShortForm().getSurvey().getId(), shortResult.getShortForm().getSurvey().getSurveyTitle(), shortResult.getId(), shortResult.getShortForm().getId(), shortResult.getShortForm().getShortQuestion(), shortResult.getShortForm().getShortType(), shortResult.getShortForm().getShortResponse(), totalPages);
