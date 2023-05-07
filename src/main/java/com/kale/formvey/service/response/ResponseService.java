@@ -108,9 +108,9 @@ public class ResponseService {
         Page<Response> res = responseRepository.findAllByMemberId(memberId,pageRequest);
         GetResponseList responses = new GetResponseList();
 
-        int totalPageCnt = (int) Math.ceil((double) responseRepository.findAllByMemberId(memberId).size() / size);
-        int releasedPageCnt = (int) Math.ceil((double) responseRepository.findAllByStatus(memberId, 2).size() / size);
-        int closedPageCnt = (int) Math.ceil((double) responseRepository.findAllByStatus(memberId, 3).size() / size);
+        int totalPageCnt = responseRepository.findAllByMemberId(memberId).size();
+        int releasedPageCnt = responseRepository.findAllByStatus(memberId, 2).size();
+        int closedPageCnt = responseRepository.findAllByStatus(memberId, 3).size();
 
         responses.setTotalPageCnt(totalPageCnt);
         responses.setReleasedPageCnt(releasedPageCnt);
