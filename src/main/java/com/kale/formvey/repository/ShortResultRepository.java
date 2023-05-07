@@ -16,7 +16,7 @@ public interface ShortResultRepository extends JpaRepository<ShortResult, Long> 
 
 
     @Query("SELECT s FROM ShortResult s WHERE s.member.id =:id")
-    List<ShortResult> findAllByMember(Long memberId);
+    List<ShortResult> findAllByMember(Long id);
 
     // 전체 짧폼 조회 게시판 (해금 여부 확인용)
     @Query("SELECT s.shortForm.id FROM ShortResult s WHERE s.member.id =:id")
