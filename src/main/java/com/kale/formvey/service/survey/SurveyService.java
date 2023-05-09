@@ -119,8 +119,10 @@ public class SurveyService {
         for (Survey survey : boardSurveys) {
             LocalDateTime nowDate = LocalDateTime.now();
             LocalDateTime endDate = survey.getEndDate();
+            int remainDay = 0;
 
-            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
+            if (endDate != null)
+                remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
             GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(), survey.getMember().getId(), survey.getSurveyTitle(), remainDay, survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
             surveys.add(dto);
@@ -149,8 +151,11 @@ public class SurveyService {
         for (Survey survey : sur) {
             LocalDateTime nowDate = LocalDateTime.now();
             LocalDateTime endDate = survey.getEndDate();
+            int remainDay = 0;
 
-            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
+            if (endDate != null)
+                remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
+
 
             GetSurveyListRes dto = new GetSurveyListRes(survey.getId(), survey.getSurveyTitle(), survey.getSurveyContent(),survey.getEndDate().toString(),
                     remainDay, survey.getResponseCnt(),survey.getStatus());

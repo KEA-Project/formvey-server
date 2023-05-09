@@ -119,8 +119,10 @@ public class ResponseService {
         for (Response response : res) {
             LocalDateTime nowDate = LocalDateTime.now();
             LocalDateTime endDate = response.getSurvey().getEndDate();
+            int remainDay = 0;
 
-            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
+            if (endDate != null)
+                remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
             GetResponseListRes dto = new GetResponseListRes(response.getSurvey().getId(), response.getId(),response.getSurvey().getSurveyTitle(), response.getSurvey().getSurveyContent(),response.getSurvey().getEndDate().toString(),
                     remainDay, response.getSurvey().getStatus());

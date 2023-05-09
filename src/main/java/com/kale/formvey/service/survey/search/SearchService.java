@@ -34,8 +34,10 @@ public class SearchService {
         for (Survey survey : searchedSurveys) {
             LocalDateTime nowDate = LocalDateTime.now();
             LocalDateTime endDate = survey.getEndDate();
+            int remainDay = 0;
 
-            int remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
+            if (endDate != null)
+                remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
 
             GetSurveyBoardRes dto = new GetSurveyBoardRes(survey.getId(),survey.getMember().getId(), survey.getSurveyTitle(), remainDay, survey.getResponseCnt(), survey.getMember().getNickname(), totalPages);
             surveys.add(dto);
