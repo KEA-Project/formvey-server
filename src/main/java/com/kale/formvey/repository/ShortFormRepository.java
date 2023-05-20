@@ -15,7 +15,7 @@ public interface ShortFormRepository extends JpaRepository<ShortForm, Long> {
     Page<ShortForm> findAll(Pageable pageable);
 
     //포함 안 되어있는 거 찾기 위한것
-    @Query(value = "SELECT * FROM short_form WHERE shortform_id NOT IN (SELECT shortform_id FROM short_answer WHERE member_id = ?1) ORDER BY DBMS_RANDOM.VALUE FETCH FIRST 1 ROWS ONLY", nativeQuery = true)
+    @Query("SELECT sf FROM ShortForm sf WHERE sf.id NOT IN (SELECT sa.shortForm.id FROM ShortAnswer sa WHERE sa.member.id = ?1) ORDER BY FUNCTION('RAND')")
     Optional<ShortForm> findRandom(Long memberId);
 
     // 숏폼 게시판 검색 쿼리

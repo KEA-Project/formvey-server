@@ -37,5 +37,4 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
     // 제작 중인 설문 리스트 조회
     @Query("SELECT s FROM Survey s JOIN s.member m WHERE m.id=:id AND s.status=:status")
     List<Survey> findAllByStatus(Long id,int status);
-
 }
