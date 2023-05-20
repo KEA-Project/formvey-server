@@ -1,5 +1,6 @@
 package com.kale.formvey.service.shortResult;
 
+import com.kale.formvey.config.BaseException;
 import com.kale.formvey.domain.Member;
 import com.kale.formvey.domain.ShortForm;
 import com.kale.formvey.domain.ShortResult;
@@ -14,11 +15,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kale.formvey.config.BaseResponseStatus.SHORTFORMS_LACKING_POINT;
+import static com.kale.formvey.config.BaseResponseStatus.SURVEYS_EMPTY_SURVEY_TITLE;
+
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ShortResultService {
 
     private final ShortResultRepository shortResultRepository;
@@ -32,10 +38,15 @@ public class ShortResultService {
         Member member = memberRepository.findById(memberId).get();
         ShortForm shortForm = shortFormRepository.findById(shortFormId).get();
 
+        // 해금하면 사용자 point 차감
+        if (member.getPoint() < 20) {
+            throw new BaseException( SHORTFORMS_LACKING_POINT);
+        } else {
+            member.modifySurveyPoint(-20);
+            memberRepository.save(member);
+        }
         // 짧폼 해금
         shortResultRepository.save(PostShortResultReq.toEntity(member, shortForm));
-
-        // 해금하면 사용자 point 차감
     }
 
     /**

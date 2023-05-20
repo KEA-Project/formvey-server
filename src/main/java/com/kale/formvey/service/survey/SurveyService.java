@@ -43,9 +43,26 @@ public class SurveyService {
      * 설문 첫 생성 컨트롤 메서드 (status = 1 -> 임시저장 / status = 2 -> 배포)
      */
     public PostSurveyRes createSurvey(Long memberId, PostSurveyReq dto, int status) { // 1 -> 짧폼 저장 x
+        // 설문 제목을 입력하지 않았을 경우
+        if (status == 2 && dto.getSurveyTitle() == null)
+            throw new BaseException(SURVEYS_EMPTY_SURVEY_TITLE);
+
+        // 질문이 한 개도 없는 경우
+        if (status == 2 && dto.getQuestions() == null)
+            throw new BaseException(SURVEYS_EMPTY_QUESTION);
+
+        // 설문 시작 날짜를 입력하지 않았을 경우
+        if (status == 2 && dto.getStartDate() == null)
+            throw new BaseException(SURVEYS_EMPTY_SURVEY_START_DATE);
+
+        // 설문 종료 날짜를 입력하지 않았을 경우
+        if (status == 2 && dto.getEndDate() == null)
+            throw new BaseException(SURVEYS_EMPTY_SURVEY_END_DATE);
+
         Member member = memberRepository.findById(memberId).get();
         Survey survey = PostSurveyReq.toEntity(member, dto);
         survey.setStatus(status);
+
         survey = surveyRepository.save(survey); // 본 설문 저장
 
         return setQuestion(dto, survey, status);
@@ -55,6 +72,22 @@ public class SurveyService {
      * 존재하는 설문 컨트롤 메서드 (status = 1 -> 임시저장 / status = 2 -> 배포)
      */
     public PostSurveyRes updateSurvey(Long surveyId, Long memberId, PostSurveyReq dto, int status) { // 1 -> 짧폼 저장 x
+        // 설문 제목을 입력하지 않았을 경우
+        if (status == 2 && dto.getSurveyTitle() == null)
+            throw new BaseException(SURVEYS_EMPTY_SURVEY_TITLE);
+
+        // 질문이 한 개도 없는 경우
+        if (status == 2 && dto.getQuestions() == null)
+            throw new BaseException(SURVEYS_EMPTY_QUESTION);
+
+        // 설문 시작 날짜를 입력하지 않았을 경우
+        if (status == 2 && dto.getStartDate() == null)
+            throw new BaseException(SURVEYS_EMPTY_SURVEY_START_DATE);
+
+        // 설문 시작 날짜를 입력하지 않았을 경우
+        if (status == 2 && dto.getEndDate() == null)
+            throw new BaseException(SURVEYS_EMPTY_SURVEY_END_DATE);
+
         Member member = memberRepository.findById(memberId).get();
         Survey survey = surveyRepository.findById(surveyId).get();
         List<Question> questions = questionRepository.findBySurveyId(surveyId);
@@ -111,7 +144,7 @@ public class SurveyService {
      */
     public List<GetSurveyBoardRes> getSurveyBoard(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징 처리 id 내림차순
-        Page<Survey> boardSurveys = surveyRepository.findAll(pageRequest);
+        Page<Survey> boardSurveys = surveyRepository.findPublicSurvey(pageRequest);
         List<GetSurveyBoardRes> surveys = new ArrayList<>();
 
         int totalPages = surveyRepository.findAll().size();
@@ -155,7 +188,6 @@ public class SurveyService {
 
             if (endDate != null)
                 remainDay = (int) ChronoUnit.DAYS.between(nowDate, endDate);
-
 
             GetSurveyListRes dto = new GetSurveyListRes(survey.getId(), survey.getSurveyTitle(), survey.getSurveyContent(),survey.getEndDate().toString(),
                     remainDay, survey.getResponseCnt(),survey.getStatus());

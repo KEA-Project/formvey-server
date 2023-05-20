@@ -7,8 +7,6 @@ import com.kale.formvey.dto.answer.PostAnswerReq;
 import com.kale.formvey.dto.choice.GetChoiceInfoRes;
 import com.kale.formvey.dto.question.GetQuestionInfoRes;
 import com.kale.formvey.dto.response.*;
-import com.kale.formvey.dto.survey.GetSurveyBoardRes;
-import com.kale.formvey.dto.survey.GetSurveyInfoRes;
 import com.kale.formvey.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,9 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +42,10 @@ public class ResponseService {
         Member member = memberRepository.findById(memberId).get(); // 설문 응답자
         Survey survey = surveyRepository.findById(surveyId).get(); // 응답하고자 하는 설문
 
+        // 중복 응답 방지
+        if (responseRepository.findExistResponse(memberId, surveyId) != null)
+            throw new BaseException(RESPONSE_EXIST_SURVEY);
+
         // 응답자가 본인 설문에 응답하는 경우
         if (survey.getMember().getId().equals(memberId))
             throw new BaseException(RESPONSE_OWN_SURVEY);
@@ -54,10 +54,12 @@ public class ResponseService {
         Response response = PostResponseReq.toEntity(member, survey, dto);
         response = responseRepository.save(response);
 
-        survey.increaseResponseCnt();
+        member.modifySurveyPoint(5);
+
+        survey.increaseResponseCnt(); // 응답 수 증가
         surveyRepository.save(survey);
         
-        List<Answer> answer=new ArrayList<>();
+        List<Answer> answer = new ArrayList<>();
 
         //답변 등록
         for (int i = 0; i < dto.getAnswers().size(); i++) {
@@ -154,7 +156,27 @@ public class ResponseService {
         return new GetResponseInfoRes( response.getSurvey().getId(), response.getSurvey().getSurveyTitle(),  response.getSurvey().getSurveyContent(),  response.getSurvey().getStartDate().toString(),  response.getSurvey().getEndDate().toString(),
                 response.getSurvey().getIsAnonymous(), response.getSurvey().getStatus(),questions,answers);
     }
+    /**
+     * 개별 응답 조회
+     */
+    public List<GetResponseIndividualRes> getResponseIndividual(Long surveyId, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").ascending()); // 페이징 처리 id 오름차순
+        List<GetResponseIndividualRes> getResponseIndividualRes = new ArrayList<>();
+        Page<Response> responses = responseRepository.findAllBySurveyId(surveyId, pageRequest);
 
+        for (Response response : responses) {
+            String nickname;
+
+            if (response.getSurvey().getIsAnonymous() == 1) // 익명 설문인 경우
+                nickname = "익명";
+            else
+                nickname = response.getMember().getNickname();
+
+            getResponseIndividualRes.add(new GetResponseIndividualRes(response.getId(), nickname,
+                    response.getResponseDate().toLocalDate().toString()));
+        }
+        return getResponseIndividualRes;
+    }
     /**
      * 응답 통계 조회
      */

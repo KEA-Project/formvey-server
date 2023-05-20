@@ -34,7 +34,9 @@ public class ResponseController {
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
             @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2040, message = "본인이 생성한 설문입니다."),
+            @ApiResponse(code = 2041, message =  "이미 응답한 설문입니다.")
+
     })
     private BaseResponse<String> responseSurvey(@RequestBody PostResponseReq dto, @PathVariable Long surveyId) {
         //jwt에서 idx 추출.
@@ -64,8 +66,7 @@ public class ResponseController {
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
-            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다.")
     })
     private BaseResponse<String> updateResponse(@RequestBody PostResponseReq dto, @PathVariable Long surveyId,@PathVariable Long responseId) {
         //jwt에서 idx 추출.
@@ -92,8 +93,7 @@ public class ResponseController {
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
-            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<String> deleteResponse(@PathVariable Long responseId, @RequestBody DeleteResponseReq deleteResponseReq) {
         //jwt에서 idx 추출.
@@ -121,8 +121,7 @@ public class ResponseController {
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
-            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<GetResponseList> getResponseList(@PathVariable Long memberId, @RequestParam("page") int page, @RequestParam("size") int size) {
         //jwt에서 idx 추출.
@@ -143,41 +142,38 @@ public class ResponseController {
      */
     @ResponseBody
     @GetMapping("/info/{responseId}")
-    @ApiOperation(value = "응답 내용 조회", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
+    @ApiOperation(value = "응답 내용 조회")
     @ApiImplicitParam(name = "responseId", value = "조회할 응답 인덱스", required = true)
-    @ApiResponses({
-            @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
-            @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
-            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
-    })
     public BaseResponse<GetResponseInfoRes> getResponseInfo(@PathVariable Long responseId) {
-        //jwt에서 idx 추출.
-        Long memberIdByJwt = jwtService.getUserIdx();
-
         GetResponseInfoRes getResponseInfoRes = responseService.getResponseInfo(responseId);
 
         return new BaseResponse<>(getResponseInfoRes);
     }
+    /**
+     * 제작 설문 개별 응답 조회
+     * [GET] /responses/Individual/{surveyId}
+     * @return BaseResponse<List<GetResponseIndividualRes>>
+     */
+    @ResponseBody
+    @GetMapping("/Individual/{surveyId}")
+    @ApiOperation(value = "제작 설문 개별 응답 조회")
+    @ApiImplicitParam(name = "surveyId", value = "제작한 설문 인덱스", required = true)
+    public BaseResponse<List<GetResponseIndividualRes>> getResponseIndividual(@PathVariable Long surveyId, @RequestParam("page") int page, @RequestParam("size") int size) {
+        List<GetResponseIndividualRes> getResponseIndividualRes = responseService.getResponseIndividual(surveyId, page, size);
 
+        return new BaseResponse<>(getResponseIndividualRes);
+    }
 
     /**
      * 제작 설문 응답 통계 조회
-     * [GET] /responses/statistics/{surveyId}/{memberId}
+     * [GET] /responses/statistics/{surveyId}
      * @return BaseResponse<List<GetResponseStatisticsRes>>
      */
     @ResponseBody
     @GetMapping("/statistics/{surveyId}")
-    @ApiOperation(value = "제작 설문 응답 통계 조회", notes = "헤더에 jwt 필요(key: X-ACCESS-TOKEN, value: jwt 값)")
-    @ApiImplicitParams({@ApiImplicitParam(name = "surveyId", value = "제작한 설문 인덱스", required = true)})
-    @ApiResponses({
-            @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
-            @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다.")
-    })
+    @ApiOperation(value = "제작 설문 응답 통계 조회")
+    @ApiImplicitParam(name = "surveyId", value = "제작한 설문 인덱스", required = true)
     public BaseResponse<List<GetResponseStatisticsRes>> getResponseStatistics(@PathVariable Long surveyId) {
-        //jwt에서 idx 추출.
-        Long memberId = jwtService.getUserIdx();
-
         List<GetResponseStatisticsRes> getResponseStatisticsRes = responseService.getResponseStatistics(surveyId);
 
         return new BaseResponse<>(getResponseStatisticsRes);

@@ -10,11 +10,14 @@ import com.kale.formvey.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 import static com.kale.formvey.config.BaseResponseStatus.*;
 import static com.kale.formvey.utils.ValidationRegex.isRegexEmail;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
 
@@ -30,7 +33,6 @@ public class MemberService {
         if (!isRegexEmail(dto.getEmail()))
             throw new BaseException(POST_USERS_INVALID_EMAIL);
 
-        System.out.println("hello!");
         //새 유저 생성
         Member member = PostMemberReq.toEntity(dto);
         member.updateStatus(0);

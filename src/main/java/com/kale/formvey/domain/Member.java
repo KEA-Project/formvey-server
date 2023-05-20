@@ -53,4 +53,8 @@ public class Member extends BaseEntity {
     public void updateStatus(int i) {
         setStatus(i);
     }
+
+    public void modifySurveyPoint(int i) {
+        this.point += i;
+    }
 }

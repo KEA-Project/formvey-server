@@ -17,7 +17,6 @@ import static com.kale.formvey.config.BaseResponseStatus.INVALID_USER_JWT;
 @RequiredArgsConstructor
 @RequestMapping("/shortanswers")
 public class ShortAnswerController {
-
     private final ShortAnswerService shortAnswerService;
     private final JwtService jwtService;
 
@@ -34,8 +33,7 @@ public class ShortAnswerController {
     @ApiResponses({
             @ApiResponse(code=2001, message="JWT를 입력해주세요."),
             @ApiResponse(code=2002, message="유효하지 않은 JWT입니다."),
-            @ApiResponse(code=2003, message="권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code=2003, message="권한이 없는 유저의 접근입니다.")
     })
     private BaseResponse<String> responseShortAnswer(@RequestBody PostShortAnswerReq dto,
                                                 @PathVariable Long shortFormId, @PathVariable Long memberId) {

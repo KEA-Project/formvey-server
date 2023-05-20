@@ -12,6 +12,7 @@ import com.kale.formvey.repository.ShortFormRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,20 +20,16 @@ import static com.kale.formvey.config.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ShortAnswerService {
-
     private final ShortAnswerRepository shortAnswerRepository;
-
     private final MemberRepository memberRepository;
-
     private final ShortFormRepository shortFormRepository;
-
 
     /**
      * 짧폼 답변
      */
     public void responseShortAnswer(PostShortAnswerReq dto, Long shortFormId, Long memberId) {
-
         Member member = memberRepository.findById(memberId).get(); // 짧폼 답변자
         ShortForm shortForm = shortFormRepository.findById(shortFormId).get(); // 답변하고자 하는 짧폼
 
@@ -46,5 +43,4 @@ public class ShortAnswerService {
         shortAnswer.add(PostShortAnswerReq.toEntity(member, shortForm, dto));
         shortAnswerRepository.saveAll(shortAnswer);
     }
-
 }

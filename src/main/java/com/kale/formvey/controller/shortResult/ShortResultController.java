@@ -18,14 +18,13 @@ import static com.kale.formvey.config.BaseResponseStatus.INVALID_USER_JWT;
 @RequiredArgsConstructor
 @RequestMapping("/shortresults")
 public class ShortResultController {
-
     private final ShortResultService shortResultService;
     private final JwtService jwtService;
 
     /**
      * 짧폼 해금
      * [POST] /shortresults/{shortFormId}/{memberId}
-     * @return BaseResponse<Void>
+     * @return BaseResponse<String>
      */
     @ResponseBody
     @PostMapping("/{shortFormId}/{memberId}")
@@ -36,25 +35,20 @@ public class ShortResultController {
             @ApiResponse(code=2001, message="JWT를 입력해주세요."),
             @ApiResponse(code=2002, message="유효하지 않은 JWT입니다."),
             @ApiResponse(code=2003, message="권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code=2052, message="짧폼을 해금하기 위한 포인트가 부족합니다.")
     })
     private BaseResponse<String> responseShortResult(@PathVariable Long shortFormId, @PathVariable Long memberId) {
-        try{
-            //jwt에서 idx 추출.
-            Long memberIdByJwt = jwtService.getUserIdx();
-            //memberId와 접근한 유저가 같은지 확인
-            if(memberId!= memberIdByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
 
-            shortResultService.responseShortResult(shortFormId, memberId);
-            String result = "짧폼이 잠금 해제되었습니다.";
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt)
+            return new BaseResponse<>(INVALID_USER_JWT);
 
-            return new BaseResponse<>(result);
+        shortResultService.responseShortResult(shortFormId, memberId);
+        String result = "짧폼이 잠금 해제되었습니다.";
 
-        } catch (BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
-        }
+        return new BaseResponse<>(result);
     }
 
     /**
@@ -69,24 +63,18 @@ public class ShortResultController {
     @ApiResponses({
             @ApiResponse(code=2001, message="JWT를 입력해주세요."),
             @ApiResponse(code=2002, message="유효하지 않은 JWT입니다."),
-            @ApiResponse(code=2003, message="권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code=4000, message="데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code=2003, message="권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<List<GetShortResultBoardRes>> getShortResultBoard(@RequestParam("page") int page, @RequestParam("size") int size, @PathVariable Long memberId) {
-        try{
-            //jwt에서 idx 추출.
-            Long memberIdByJwt = jwtService.getUserIdx();
-            //memberId와 접근한 유저가 같은지 확인
-            if(memberId!= memberIdByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
-
-            List<GetShortResultBoardRes> result = shortResultService.getShortResultBoard(page, size, memberId);
-
-            return new BaseResponse<>(result);
-
-        } catch (BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
+        //jwt에서 idx 추출.
+        Long memberIdByJwt = jwtService.getUserIdx();
+        //memberId와 접근한 유저가 같은지 확인
+        if (memberId != memberIdByJwt) {
+            return new BaseResponse<>(INVALID_USER_JWT);
         }
+
+        List<GetShortResultBoardRes> result = shortResultService.getShortResultBoard(page, size, memberId);
+
+        return new BaseResponse<>(result);
     }
 }

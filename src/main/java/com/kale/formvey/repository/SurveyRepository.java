@@ -19,7 +19,8 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
     Page<Survey> findByMemberId(Long id, Pageable pageable);
 
     // 게시판 리스트 조회
-    Page<Survey> findAll(Pageable pageable);
+    @Query("SELECT s FROM Survey s WHERE s.isPublic = 1")
+    Page<Survey> findPublicSurvey(Pageable pageable);
 
     // 게시판 검색 쿼리
     @Query("SELECT s FROM Survey s WHERE s.surveyTitle LIKE %:keyword% OR s.member.nickname LIKE %:keyword%")

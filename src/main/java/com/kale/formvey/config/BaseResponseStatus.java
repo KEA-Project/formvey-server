@@ -32,13 +32,18 @@ public enum BaseResponseStatus {
 
     //survey
     SURVEYS_EMPTY_SURVEY_ID(false, 2030, "설문 아이디 값을 확인해주세요."),
+    SURVEYS_EMPTY_SURVEY_TITLE(false, 2031, "설문 제목을 입력해주세요."),
+    SURVEYS_EMPTY_QUESTION(false, 2032, "질문을 한 개 이상 등록해주세요."),
+    SURVEYS_EMPTY_SURVEY_START_DATE(false, 2033, "설문 시작 날짜를 등록해주세요."),
+    SURVEYS_EMPTY_SURVEY_END_DATE(false, 2034, "설문 종료 날짜를 등록해주세요."),
 
     //response
     RESPONSE_OWN_SURVEY(false, 2040, "본인이 생성한 설문입니다."),
-
+    RESPONSE_EXIST_SURVEY(false, 2041, "이미 응답한 설문입니다."),
     //shortform
     SHORTFORMS_EMPTY_SHORTFORM_ID(false, 2050, "숏폼 아이디 값을 확인해주세요."),
     RESPONSE_OWN_SHORTFORM(false, 2051, "본인이 생성한 짧폼입니다."),
+    SHORTFORMS_LACKING_POINT(false, 2052,"짧폼을 해금하기 위한 포인트가 부족합니다."),
 
     /**
      * 3000 : Response 오류

@@ -32,7 +32,10 @@ public class SurveyController {
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
-            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2031, message = "설문 제목을 입력해주세요."),
+            @ApiResponse(code = 2032, message = "질문을 한 개 이상 등록해주세요."),
+            @ApiResponse(code = 2033, message = "설문 시작 날짜를 등록해주세요."),
+            @ApiResponse(code = 2034, message = "설문 종료 날짜를 등록해주세요.")
     })
     private BaseResponse<PostSurveyRes> createSurvey(@RequestBody PostSurveyReq dto, @PathVariable int status) {
         Long memberId = jwtService.getUserIdx();
@@ -53,7 +56,10 @@ public class SurveyController {
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
-            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2031, message = "설문 제목을 입력해주세요."),
+            @ApiResponse(code = 2032, message = "질문을 한 개 이상 등록해주세요."),
+            @ApiResponse(code = 2033, message = "설문 시작 날짜를 등록해주세요."),
+            @ApiResponse(code = 2034, message = "설문 종료 날짜를 등록해주세요.")
     })
     private BaseResponse<PostSurveyRes> updateSurvey(@RequestBody PostSurveyReq dto, @PathVariable Long surveyId, @PathVariable int status) {
         Long memberId = jwtService.getUserIdx();
@@ -73,8 +79,7 @@ public class SurveyController {
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
-            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<String> deleteSurvey(@PathVariable Long surveyId, @RequestBody DeleteSurveyReq deleteSurveyReq) {
         //jwt에서 idx 추출.
@@ -115,8 +120,7 @@ public class SurveyController {
     @ApiResponses({
             @ApiResponse(code = 2001, message = "JWT를 입력해주세요."),
             @ApiResponse(code = 2002, message = "유효하지 않은 JWT입니다."),
-            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
-            @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다.")
+            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다.")
     })
     public BaseResponse<GetSurveyList> getSurveyList(@PathVariable Long memberId, @RequestParam("page") int page, @RequestParam("size") int size) {
         //jwt에서 idx 추출.
