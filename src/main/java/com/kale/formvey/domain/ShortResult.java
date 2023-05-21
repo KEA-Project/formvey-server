@@ -10,18 +10,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@SequenceGenerator(
-        name = "SHORTRESULT_SEQ_GENERATOR"
-        , sequenceName = "SHORTRESULT_SEQ"
-        , initialValue = 1
-        , allocationSize = 1
-)
 @Builder
 @Getter
 public class ShortResult extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SHORTRESULT_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shortresult_id")
     private Long id;
 

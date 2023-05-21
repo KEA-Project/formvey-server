@@ -9,17 +9,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@SequenceGenerator(
-        name = "QUESTION_SEQ_GENERATOR"
-        , sequenceName = "QUESTION_SEQ"
-        , initialValue = 1
-        , allocationSize = 1
-)
 @Builder
 @Getter
 public class Question extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUESTION_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
     private Long id;
 

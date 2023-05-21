@@ -12,24 +12,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@SequenceGenerator(
-        name = "SHORTANSWER_SEQ_GENERATOR"
-        , sequenceName = "SHORTANSWER_SEQ"
-        , initialValue = 1
-        , allocationSize = 1
-)
 @Builder
 @Getter
 public class ShortAnswer extends BaseEntity{
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SHORTANSWER_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shortanswer_id")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "shortform_id")
     private ShortForm shortForm;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;

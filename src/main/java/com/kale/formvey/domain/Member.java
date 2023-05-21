@@ -11,17 +11,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@SequenceGenerator(
-        name = "MEMBER_SEQ_GENERATOR"
-        , sequenceName = "MEMBER_SEQ"
-        , initialValue = 1
-        , allocationSize = 1
-)
+
 @Builder
 @Getter
 public class Member extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 

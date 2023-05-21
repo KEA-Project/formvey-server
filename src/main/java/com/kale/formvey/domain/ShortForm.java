@@ -12,17 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@SequenceGenerator(
-        name = "SHORTFORM_SEQ_GENERATOR"
-        , sequenceName = "SHORTFORM_SEQ"
-        , initialValue = 1
-        , allocationSize = 1
-)
 @Builder
 @Getter
 public class ShortForm extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SHORTFORM_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shortform_id")
     private Long id;
 
