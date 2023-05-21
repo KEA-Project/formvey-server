@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,4 +38,7 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
     // 제작 중인 설문 리스트 조회
     @Query("SELECT s FROM Survey s JOIN s.member m WHERE m.id=:id AND s.status=:status")
     List<Survey> findAllByStatus(Long id,int status);
+
+    // 마감 기한이 지난 설문 리스트 조회
+    List<Survey> findAllByEndDateBefore(LocalDateTime currentDateTime);
 }
