@@ -14,6 +14,7 @@ import java.util.Scanner;
 @EnableJpaAuditing
 @EnableScheduling
 class FormveyApplication {
+	// ci/cd test
 	public static void main(String[] args) {
 		SpringApplication.run(FormveyApplication.class, args);
 	}
