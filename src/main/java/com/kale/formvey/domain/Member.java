@@ -40,6 +40,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<ShortResult> shortResults = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<UserReward> userRewards = new ArrayList<>();
+
     public void update(PatchMemberReq dto) {
         this.nickname = dto.getNickname();
         this.password = dto.getPassword();

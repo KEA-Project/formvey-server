@@ -30,4 +30,8 @@ public interface ResponseRepository extends JpaRepository<Response, Long> {
 
     // 개별 응답 조회
     Page<Response> findAllBySurveyId(Long surveyId, Pageable pageable);
+
+    //설문 참여자 리스트 조회
+    @Query("SELECT r FROM Response r where r.survey.id=:id")
+    List<Response> findBySurveyId(Long id);
 }
