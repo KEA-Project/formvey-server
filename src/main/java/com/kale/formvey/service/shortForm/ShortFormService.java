@@ -82,7 +82,7 @@ public class ShortFormService {
      */
     public GetShortFormMainRes getShortFormMain(Long memberId) {
 
-        ShortForm shortForm = shortFormRepository.findRandom(memberId).get();
+        ShortForm shortForm = shortFormRepository.findRandom(memberId, PageRequest.of(0,1)).stream().findFirst().orElseThrow(() -> new BaseException(DATABASE_ERROR));
 
         List<GetShortOptionRes> options = shortForm.getShortOptions().stream()
                 .map(shortOption -> new GetShortOptionRes(shortOption.getId(), shortOption.getShortIndex(), shortOption.getShortContent()))

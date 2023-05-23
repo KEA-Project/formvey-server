@@ -21,6 +21,8 @@ public class PostShortFormReq {
 
     private String shortQuestion;
 
+    private Long memberId;
+
     private int shortType;
 
     private int shortResponse;
@@ -31,6 +33,7 @@ public class PostShortFormReq {
     public static ShortForm toEntity(Survey survey, PostShortFormReq dto){
         return ShortForm.builder()
                 .survey(survey)
+                .memberId(survey.getMember().getId())
                 .shortType(dto.shortType)
                 .shortResponse(0)
                 .shortQuestion(dto.shortQuestion)

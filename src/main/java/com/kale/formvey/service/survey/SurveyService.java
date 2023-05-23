@@ -107,8 +107,8 @@ public class SurveyService {
 
             if (status == 2) {
                 if (question.getIsShort() == 1) { // 질문 엔티티의 isShort가 1이면 짧폼 저장
-                    PostShortFormReq postShortFormReq = new PostShortFormReq(question.getQuestionTitle(), question.getType(), 0,  postQuestionReq.getChoices());
-                    ShortForm shortForm = PostShortFormReq.toEntity(survey, postShortFormReq);
+                    PostShortFormReq postShortFormReq = new PostShortFormReq(question.getQuestionTitle(), survey.getMember().getId(), question.getType(), 0,  postQuestionReq.getChoices());
+                    ShortForm shortForm = PostShortFormReq.toEntity(survey,postShortFormReq);
                     shortFormRepository.save(shortForm);
 
                     if (postShortFormReq.getShortOptions() != null) {
