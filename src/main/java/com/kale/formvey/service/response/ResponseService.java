@@ -195,11 +195,9 @@ public class ResponseService {
             Arrays.fill(multipleChoiceCnt, 0);
 
             if (question.getType() == 2) { // 주관식이면 주관식 답변 리스트 반환 객관식 답변은 null
-                for (Answer answer : answers) {
-                    String answerContent = answer.getAnswerContent();
-                    String contents = answerContent.substring(1, answerContent.length() - 1);
-                    subjectiveAnswers.add(contents);
-                }
+                for (Answer answer : answers)
+                    subjectiveAnswers.add(answer.getAnswerContent());
+
                 getResponseStatisticsRes.add(new GetResponseStatisticsRes(question.getId(), question.getQuestionIdx(), question.getQuestionTitle(), null, subjectiveAnswers));
             }
             else if (question.getType() == 1){ // 다중 객관식 답변 리스트 반환 - choices 크기 만큼의 int배열 선언, ,answerContent랑 choiceContent랑 비교해서 일치하면 해당 인덱스 int값 상승
