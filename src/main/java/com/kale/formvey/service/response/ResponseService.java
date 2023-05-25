@@ -205,8 +205,7 @@ public class ResponseService {
             else if (question.getType() == 1){ // 다중 객관식 답변 리스트 반환 - choices 크기 만큼의 int배열 선언, ,answerContent랑 choiceContent랑 비교해서 일치하면 해당 인덱스 int값 상승
                 for (Answer answer : answers) {
                     String answerContent = answer.getAnswerContent();
-                    String contents = answerContent.substring(1, answerContent.length() - 1);
-                    String[] contentList = contents.split(", "); // 여러개 응답 파싱
+                    String[] contentList = answerContent.split(", "); // 여러개 응답 파싱
 
                     for (Choice choice : choices) {
                         for (String content : contentList) {
@@ -224,9 +223,8 @@ public class ResponseService {
             } else {
                 for (Answer answer : answers) {
                     String answerContent = answer.getAnswerContent();
-                    String contents = answerContent.substring(1, answerContent.length() - 1);
                     for (Choice choice : choices) {
-                        if (contents.equals(choice.getChoiceContent())) {
+                        if (answerContent.equals(choice.getChoiceContent())) {
                             multipleChoiceCnt[choice.getChoiceIndex()]++;
                         }
                     }
