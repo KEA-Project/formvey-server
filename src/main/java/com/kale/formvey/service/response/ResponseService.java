@@ -160,7 +160,7 @@ public class ResponseService {
      * 개별 응답 조회
      */
     public List<GetResponseIndividualRes> getResponseIndividual(Long surveyId, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").ascending()); // 페이징 처리 id 오름차순
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending()); // 페이징 처리 id 오름차순
         List<GetResponseIndividualRes> getResponseIndividualRes = new ArrayList<>();
         Page<Response> responses = responseRepository.findAllBySurveyId(surveyId, pageRequest);
 
