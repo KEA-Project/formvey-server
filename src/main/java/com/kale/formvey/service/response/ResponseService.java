@@ -164,7 +164,7 @@ public class ResponseService {
         List<GetResponseIndividualRes> getResponseIndividualRes = new ArrayList<>();
         Page<Response> responses = responseRepository.findAllBySurveyId(surveyId, pageRequest);
 
-        int totalPages = responseRepository.findAll().size();
+        int totalPages = responses.getTotalPages();
 
         for (Response response : responses) {
             String nickname;
