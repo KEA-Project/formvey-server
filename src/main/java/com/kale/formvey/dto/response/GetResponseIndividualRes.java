@@ -17,4 +17,6 @@ public class GetResponseIndividualRes {
     private String nickname;
 
     private String responseDate;
+
+    private int pages;
 }

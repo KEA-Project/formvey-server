@@ -164,6 +164,8 @@ public class ResponseService {
         List<GetResponseIndividualRes> getResponseIndividualRes = new ArrayList<>();
         Page<Response> responses = responseRepository.findAllBySurveyId(surveyId, pageRequest);
 
+        int totalPages = responseRepository.findAll().size();
+
         for (Response response : responses) {
             String nickname;
 
@@ -173,7 +175,7 @@ public class ResponseService {
                 nickname = response.getMember().getNickname();
 
             getResponseIndividualRes.add(new GetResponseIndividualRes(response.getId(), nickname,
-                    response.getResponseDate().toLocalDate().toString()));
+                    response.getResponseDate().toLocalDate().toString(), totalPages));
         }
         return getResponseIndividualRes;
     }
@@ -194,7 +196,9 @@ public class ResponseService {
 
             if (question.getType() == 2) { // 주관식이면 주관식 답변 리스트 반환 객관식 답변은 null
                 for (Answer answer : answers) {
-                    subjectiveAnswers.add(answer.getAnswerContent());
+                    String answerContent = answer.getAnswerContent();
+                    String contents = answerContent.substring(1, answerContent.length() - 1);
+                    subjectiveAnswers.add(contents);
                 }
                 getResponseStatisticsRes.add(new GetResponseStatisticsRes(question.getId(), question.getQuestionIdx(), question.getQuestionTitle(), null, subjectiveAnswers));
             }
@@ -219,8 +223,10 @@ public class ResponseService {
                 getResponseStatisticsRes.add(new GetResponseStatisticsRes(question.getId(), question.getQuestionIdx(), question.getQuestionTitle(), multipleChoiceInfos, null));
             } else {
                 for (Answer answer : answers) {
+                    String answerContent = answer.getAnswerContent();
+                    String contents = answerContent.substring(1, answerContent.length() - 1);
                     for (Choice choice : choices) {
-                        if (answer.getAnswerContent().equals(choice.getChoiceContent())) {
+                        if (contents.equals(choice.getChoiceContent())) {
                             multipleChoiceCnt[choice.getChoiceIndex()]++;
                         }
                     }
