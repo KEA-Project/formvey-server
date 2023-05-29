@@ -42,5 +42,10 @@ public class ShortAnswerService {
         List<ShortAnswer> shortAnswer = new ArrayList<>();
         shortAnswer.add(PostShortAnswerReq.toEntity(member, shortForm, dto));
         shortAnswerRepository.saveAll(shortAnswer);
+
+        // 응답자 point 증가
+        int point = dto.getPoint();
+        member.modifySurveyPoint(member.getPoint() + point);
+        memberRepository.save(member);
     }
 }

@@ -20,6 +20,8 @@ public class PostShortAnswerReq {
 //    private String shortAnswer;
     private List<String> shortAnswer = new ArrayList<>();
 
+    private int point;
+
     public static ShortAnswer toEntity(Member member, ShortForm shortForm, PostShortAnswerReq dto){
         return ShortAnswer.builder()
                 .member(member)
