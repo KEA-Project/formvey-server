@@ -45,7 +45,8 @@ public class ShortAnswerService {
 
         // 응답자 point 증가
         int point = dto.getPoint();
-        member.modifySurveyPoint(member.getPoint() + point);
+//        member.modifySurveyPoint(member.getPoint() + point);
+        member.modifySurveyPoint(point);
         memberRepository.save(member);
     }
 }
