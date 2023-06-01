@@ -174,7 +174,7 @@ public class ResponseService {
             else
                 nickname = response.getMember().getNickname();
 
-            getResponseIndividualRes.add(new GetResponseIndividualRes(response.getId(), nickname,
+            getResponseIndividualRes.add(new GetResponseIndividualRes(response.getId(), response.getMember().getId(), nickname,
                     response.getResponseDate().toLocalDate().toString(), totalPages));
         }
         return getResponseIndividualRes;
