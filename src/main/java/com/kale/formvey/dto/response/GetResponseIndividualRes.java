@@ -14,6 +14,8 @@ import java.time.LocalDate;
 public class GetResponseIndividualRes {
     private Long responseId;
 
+    private Long memberId;
+
     private String nickname;
 
     private String responseDate;
